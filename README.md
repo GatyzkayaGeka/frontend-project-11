@@ -8,4 +8,3 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/546a6240488be1fe3050/test_coverage)](https://codeclimate.com/github/GatyzkayaGeka/frontend-project-11/test_coverage)
 
 ### Github actions:
-test
