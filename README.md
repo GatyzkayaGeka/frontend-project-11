@@ -4,7 +4,5 @@
 ### Maintainability:
 [![Maintainability](https://api.codeclimate.com/v1/badges/546a6240488be1fe3050/maintainability)](https://codeclimate.com/github/GatyzkayaGeka/frontend-project-11/maintainability)
 
-### Test Coverage Badge:
-[![Test Coverage](https://api.codeclimate.com/v1/badges/546a6240488be1fe3050/test_coverage)](https://codeclimate.com/github/GatyzkayaGeka/frontend-project-11/test_coverage)
-
 ### Github actions:
+[![Github actions](https://github.com/GatyzkayaGeka/frontend-project-11/actions/workflows/github-actions.yml/badge.svg)](https://github.com/GatyzkayaGeka/frontend-project-11/actions/workflows/github-actions.yml)
