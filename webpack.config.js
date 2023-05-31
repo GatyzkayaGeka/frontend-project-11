@@ -7,7 +7,11 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+       template: 'index.html',
+    }),
+  ],
   mode: 'development',
   devServer: {
     static: path.resolve(__dirname, 'dist'),
