@@ -12,5 +12,5 @@ webpack:
     npx webpack serve
 
 build:
-	rm -rf dist
-	NODE_ENV=production npx webpack
+	npx webpack --mode=development
+	
