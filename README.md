@@ -6,3 +6,5 @@
 
 ### Github actions:
 [![Github actions](https://github.com/GatyzkayaGeka/frontend-project-11/actions/workflows/github-actions.yml/badge.svg)](https://github.com/GatyzkayaGeka/frontend-project-11/actions/workflows/github-actions.yml)
+
+Test work here: [https://frontend-project-11-kz3m-fkjskye8z-gatyzkayageka.vercel.app/](https://frontend-project-11-kz3m-fkjskye8z-gatyzkayageka.vercel.app/)
