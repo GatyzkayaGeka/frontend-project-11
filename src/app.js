@@ -17,13 +17,12 @@ const validateSS = (link, links) => {
 
 const app = () => {
   const i18nInstance = i18next.createInstance();
-  i18nInstance
-    .init({
+  i18nInstance.init({
     lng: 'ru',
-    debug: false,
-    resources, //: {
-      //ru,
-    //},
+    debug: true,
+    resources: {
+      ru,
+    },
   });
   // ссылки для отрисовки элементов
   const elements = {
