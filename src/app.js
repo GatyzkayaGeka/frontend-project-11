@@ -4,6 +4,7 @@ import i18next from 'i18next';
 import './styles.scss';
 import render from './view.js';
 import onChange from 'on-change';
+import ru from './ru.js';
 
 // проверить на валидность url и на повтор
 const validateSS = (link, links) => {
@@ -20,7 +21,7 @@ const app = () => {
   i18nInstance.init({
     lng: 'ru',
     debug: true,
-    //resources, //: {
+    resources: { ru },//: {
       //ru,
     //},
   });
