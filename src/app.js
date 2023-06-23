@@ -38,9 +38,13 @@ const app = () => {
   
   // объект состояния
   const state = { 
-    formStatus: 'valid',
-    urlList: [],
-    error: '',
+    process: {
+        state: 'filling',
+        error: '',
+      },
+      content: {
+        posts: [],
+      },
   };
   
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
@@ -51,13 +55,13 @@ const app = () => {
     el.preventDefault();
     const formData = new FormData(el.target);
 
-    validateSS(formData.get('url'), state.urlList)
+    validateSS(formData.get('url'), content.posts)
     .then((data) => {
-      stateChanges.form.formStatus = 'sending';
-      stateChanges.urlList.push(data);
+      stateChanges.process.state = 'sending';
+      stateChanges.content.posts.push(data);
     })
     .catch(() => {
-      stateChanges.formStatus = 'failed';
+      stateChanges.content.posts = 'failed';
     });
 });
 };
