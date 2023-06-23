@@ -55,7 +55,7 @@ const app = () => {
     el.preventDefault();
     const formData = new FormData(el.target);
 
-    validateSS(formData.get('url'), content.posts)
+    validateSS(formData.get('url'), state.content.posts)
     .then((data) => {
       stateChanges.process.state = 'sending';
       stateChanges.content.posts.push(data);
