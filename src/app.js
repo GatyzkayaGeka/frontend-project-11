@@ -20,9 +20,9 @@ const app = () => {
   i18nInstance.init({
     lng: 'ru',
     debug: true,
-    resources: {
-      ru,
-    },
+    resources, //: {
+      //ru,
+    //},
   });
   // ссылки для отрисовки элементов
   const elements = {
