@@ -8,12 +8,13 @@ import ru from './ru.js';
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
-  const schema = yup.string()
+  const schema = yup
+    .string()
     .trim() // лишние пробелы убераются
-    .url() // 'Ссылка должна быть валидным URL'
     .required() // 'Поле не должно быть пустым'
-    .notOneOf(urls, 'RSS уже существует'); // 'RSS уже существует'
-  return schema.validateSS(url);
+    .notOneOf(urls, 'RSS уже существует') // 'RSS уже существует'
+    .url() // 'Ссылка должна быть валидным URL'
+  return schema.validate(url);
 };
 
 const app = () => {
