@@ -2,7 +2,6 @@ import * as yup from 'yup';
 import _ from 'lodash';
 import i18next from 'i18next';
 import './styles.scss';
-import '../index.html';
 import render from './view.js';
 import onChange from 'on-change';
 
