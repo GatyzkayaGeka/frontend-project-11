@@ -7,13 +7,13 @@ import onChange from 'on-change';
 import ru from './ru.js';
 
 // проверить на валидность url и на повтор
-const validateSS = (link, links) => {
+const validateSS = (url, urls) => {
   const schema = yup.string()
     .trim() // лишние пробелы убераются
     .url() // 'Ссылка должна быть валидным URL'
     .required() // 'Поле не должно быть пустым'
-    .notOneOf(links); // 'RSS уже существует'
-  return schema.validateSS(link);
+    .notOneOf(urls, 'RSS уже существует'); // 'RSS уже существует'
+  return schema.validateSS(url);
 };
 
 const app = () => {

@@ -1,6 +1,8 @@
 export default {
   translation: {
-    okRss: 'RSS успешно загружен',
+    status: { 
+      okRss: 'RSS успешно загружен',
+    },
     errors: {
       invalidUrl: 'Ссылка должна быть валидным URL',
       must: 'Поле не должно быть пустым',
