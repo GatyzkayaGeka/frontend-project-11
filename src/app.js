@@ -57,7 +57,7 @@ const app = () => {
       stateChanges.urlList.push(data);
     })
     .catch(() => {
-      stateChanges.form.formStatus = 'failed';
+      stateChanges.formStatus = 'failed';
     });
 });
 };
