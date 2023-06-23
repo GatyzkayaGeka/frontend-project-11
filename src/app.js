@@ -3,17 +3,28 @@ import _ from 'lodash';
 import i18next from 'i18next';
 import './styles.scss';
 import '../index.html';
-
 import render from './view.js';
 import onChange from 'on-change';
 
+// проверить на валидность url и на повтор
+const validateSS = (link, links) => {
+  const schema = yup.string()
+    .trim() // лишние пробелы убераются
+    .url() // 'Ссылка должна быть валидным URL'
+    .required() // 'Поле не должно быть пустым'
+    .notOneOf(links); // 'RSS уже существует'
+  return schema.validateSS(link);
+};
 
 const app = () => {
-  const languageDef = 'ru';
   const i18nInstance = i18next.createInstance();
-  i18nInstance.init({
-    lng: languageDef,
-    resources,
+  i18nInstance
+    .init({
+    lng: 'ru',
+    debug: false,
+    resources: {
+      ru,
+    },
   });
   // ссылки для отрисовки элементов
   const elements = {
@@ -30,21 +41,10 @@ const app = () => {
     formStatus: 'valid',
     urlList: [],
     error: '',
-};
+  };
   
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
-  const stateChanges = onChange(state, render(state, elements));
-
-  // проверить на валидность url и на повтор
-  const validateSS = (link, links) => {
-    const schema = yup.string()
-      .trim() // лишние пробелы убераются
-      .url() // 'Ссылка должна быть валидным URL'
-      .required() // 'Поле не должно быть пустым'
-      .notOneOf(links); // 'RSS уже существует'
-  
-    return schema.validateSS(link);
-  };
+  const stateChanges = onChange(state, render(state, elements, i18nInstance));
 
   // нажимания  и обработка файла для второго шага вив
   elements.form.addEventListener('submit', (el) => {

@@ -1,8 +1,5 @@
 export default {
   translation: {
-    languages: {
-      ru: 'Русский',
-    },
     okRss: 'RSS успешно загружен',
     errors: {
       invalidUrl: 'Ссылка должна быть валидным URL',

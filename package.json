@@ -19,7 +19,8 @@
     "i18next": "^23.2.3",
     "lodash": "^4.17.21",
     "sass": "^1.62.1",
-    "sass-loader": "^13.3.1"
+    "sass-loader": "^13.3.1",
+    "yup": "^1.2.0"
   },
   "name": "@hexlet/code.",
   "description": "[![Actions Status](https://github.com/GatyzkayaGeka/frontend-project-11/workflows/hexlet-check/badge.svg)](https://github.com/GatyzkayaGeka/frontend-project-11/actions)",

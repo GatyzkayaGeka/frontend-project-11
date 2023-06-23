@@ -6,8 +6,8 @@ const deletionInformation  = (elements, value) => {
   feedback.classList.remove('text-danger');
 };
 
-const formUrl = (elements, value) => {
-
+const formUrl = (elements, value, i18nInstance) => {
+const { feedback: isFeedback } = elements;
   switch (value) {
     case 'valid':
       input.classList.remove('is-invalid');
@@ -17,12 +17,12 @@ const formUrl = (elements, value) => {
       elements.input.classList.add('is-invalid');
       elements.feedback.classList.remove('text-success');
       elements.feedback.classList.add('text-danger');
-      elements.feedback.textContent = state.error;
+      isFeedback.textContent = i18nInstance.t('errors.invalidUrl');
       break;
     case 'success':
       deletionInformation(elements);
       elements.feedback.classList.add('text-success');
-      elements.feedback.textContent = 'RSS успешно загружен';
+      isFeedback.textContent = i18nInstance.t('okRss');;
       elements.form.reset();
       elements.input.focus();
       break;
@@ -31,8 +31,8 @@ const formUrl = (elements, value) => {
   }
 };
 
-const render = (elements, state) => (path, value) => {
-    formUrl(elements, value);
+const render = (elements, state, i18nInstance) => (path, value) => {
+    formUrl(elements, value, i18nInstance);
   };
 
 
