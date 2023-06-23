@@ -21,9 +21,9 @@ const app = () => {
     .init({
     lng: 'ru',
     debug: false,
-    resources: {
-      ru,
-    },
+    resources, //: {
+      //ru,
+    //},
   });
   // ссылки для отрисовки элементов
   const elements = {
