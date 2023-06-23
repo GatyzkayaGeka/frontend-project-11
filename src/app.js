@@ -20,7 +20,7 @@ const app = () => {
   i18nInstance.init({
     lng: 'ru',
     debug: true,
-    resources, //: {
+    //resources, //: {
       //ru,
     //},
   });
