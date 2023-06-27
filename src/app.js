@@ -5,15 +5,16 @@ import './styles.scss';
 import render from './view.js';
 import onChange from 'on-change';
 import ru from './ru.js';
+import _ from 'lodash';
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
   const schema = yup
     .string()
     .trim() // лишние пробелы убераются
-    .required() // 'Поле не должно быть пустым'
-    .notOneOf(urls, 'RSS уже существует') // 'RSS уже существует'
-    .url() // 'Ссылка должна быть валидным URL'
+    .required('must') // 'Поле не должно быть пустым'
+    .notOneOf(urls, 'addedUrlExists') // 'RSS уже существует'
+    .url('invalidUrl') // 'Ссылка должна быть валидным URL'
   return schema.validate(url);
 };
 
