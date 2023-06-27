@@ -22,9 +22,7 @@ const app = () => {
   i18nInstance.init({
     lng: 'ru',
     debug: true,
-    resources: { ru },//: {
-      //ru,
-    //},
+    resources: { ru },
   });
   // ссылки для отрисовки элементов
   const elements = {
@@ -38,7 +36,7 @@ const app = () => {
   
   // объект состояния
   const state = { 
-    process: {
+    form: {
         state: 'filling',
         error: '',
       },
@@ -57,11 +55,11 @@ const app = () => {
 
     validateSS(formData.get('url'), state.content.posts)
     .then((data) => {
-      stateChanges.process.state = 'sending';
+      stateChanges.form.state = 'sending';
       stateChanges.content.posts.push(data);
     })
     .catch(() => {
-      stateChanges.content.posts = 'failed';
+      stateChanges.form.state = 'failed';
     });
 });
 };
