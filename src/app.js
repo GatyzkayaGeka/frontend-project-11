@@ -5,7 +5,6 @@ import './styles.scss';
 import render from './view.js';
 import onChange from 'on-change';
 import ru from './ru.js';
-import _ from 'lodash';
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
