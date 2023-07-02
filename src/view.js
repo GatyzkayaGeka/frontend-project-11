@@ -1,12 +1,13 @@
 import onChange from 'on-change';
 
-const deletionInformation  = (elements, value) => {
+const deletionInformation  = (elements) => {
   const { input, feedback } = elements;
   input.classList.remove('is-invalid');
   feedback.classList.remove('text-danger');
+  feedback.classList.remove('text-success');
 };
 
-const formUrl = (elements, value, i18nInstance) => {
+const formUrl = (elements, value, i18nInstance, state) => {
 const { feedback: isFeedback } = elements;
   switch (value) {
     //case 'valid':
@@ -18,11 +19,13 @@ const { feedback: isFeedback } = elements;
       elements.feedback.classList.remove('text-success');
       elements.feedback.classList.add('text-danger');
       isFeedback.textContent = i18nInstance.t('errors.invalidUrl');
+      elements.form.reset();
+      elements.input.focus();
       break;
     case 'success':
       deletionInformation(elements);
       elements.feedback.classList.add('text-success');
-      isFeedback.textContent = i18nInstance.t('status.okRss');;
+      isFeedback.textContent = i18nInstance.t('state.${state.form.state}');
       elements.form.reset();
       elements.input.focus();
       break;

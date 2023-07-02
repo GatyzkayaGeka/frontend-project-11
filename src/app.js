@@ -5,15 +5,16 @@ import './styles.scss';
 import render from './view.js';
 import onChange from 'on-change';
 import ru from './ru.js';
+import axios from 'axios';
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
   const schema = yup
     .string()
     .trim() // лишние пробелы убераются
-    .required('must') // 'Поле не должно быть пустым'
-    .notOneOf(urls, 'addedUrlExists') // 'RSS уже существует'
+    .notOneOf(urls, 'errors.addedUrlExists') // 'RSS уже существует'
     .url('invalidUrl') // 'Ссылка должна быть валидным URL'
+    .required('must') // 'Поле не должно быть пустым'
   return schema.validate(url);
 };
 
@@ -37,29 +38,27 @@ const app = () => {
   // объект состояния
   const state = { 
     form: {
-        state: 'filling',
-        error: '',
-      },
-      content: {
-        posts: [],
-      },
+      state: 'filling',
+      error: '',
+    },
+    posts: [],
   };
   
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
-  const stateChanges = onChange(state, render(state, elements, i18nInstance));
+  const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
   // нажимания  и обработка файла для второго шага вив
   elements.form.addEventListener('submit', (el) => {
     el.preventDefault();
     const formData = new FormData(el.target);
 
-    validateSS(formData.get('url'), state.content.posts)
+    validateSS(formData.get('url'), state.posts)
     .then((data) => {
-      stateChanges.form.state = 'sending';
-      stateChanges.content.posts.push(data);
+      stateChanges.form.state = 'success';
+      stateChanges.posts.push(data);
     })
     .catch(() => {
-      stateChanges.form.state = 'failed';
+      stateChanges.form.state = 'invalid';
     });
 });
 };
