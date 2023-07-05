@@ -11,6 +11,7 @@ export default {
     },
     feed: 'Фиды',
     posts: 'Посты',
+    button: 'Просмотр',
   },
 };
   

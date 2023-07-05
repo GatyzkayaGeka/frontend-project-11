@@ -6,6 +6,8 @@ import render from './view.js';
 import onChange from 'on-change';
 import ru from './ru.js';
 import axios from 'axios';
+import parseRSS from './parser.js';
+import { createFeeds, createPost } from './creat.js';
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
@@ -48,6 +50,8 @@ const app = () => {
     button: document.querySelector('button[type="submit"]'),
     feedback: document.querySelector('.feedback'),
     container: document.querySelector('.container-xxl'),
+    feeds: document.querySelector('.feeds'),
+    posts: document.querySelector('.posts'),
   };
   
   // объект состояния

@@ -22,3 +22,5 @@ const parseRSS = (response, link) => {
       throw e;
     }
   };
+
+export default parseRSS;
