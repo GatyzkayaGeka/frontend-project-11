@@ -9,6 +9,8 @@ export default {
       addedUrlExists: 'RSS уже существует',
       invalidRss: 'Ресурс не содержит валидный RSS',
     },
+    feed: 'Фиды',
+    posts: 'Посты',
   },
 };
   

@@ -18,6 +18,21 @@ const validateSS = (url, urls) => {
   return schema.validate(url);
 };
 
+const addFeed = (url, state) => {
+  return axios
+    .get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`)
+    .then((response) => {
+      const { feed, posts } = parseRSS(response, url);
+      state.feeds.push(feed);
+      state.posts.push(...posts);
+    })
+    .catch((error) => {
+      console.log(error);
+      stateChanges.form.state = 'error';
+      stateChanges.form.error = error.message;
+    });
+};
+
 const app = () => {
   const i18nInstance = i18next.createInstance();
   i18nInstance.init({
@@ -32,7 +47,7 @@ const app = () => {
     label: document.querySelector('label[for="url-input"]'),
     button: document.querySelector('button[type="submit"]'),
     feedback: document.querySelector('.feedback'),
-    container: document.querySelector('.container-xxl '),
+    container: document.querySelector('.container-xxl'),
   };
   
   // объект состояния
@@ -42,6 +57,7 @@ const app = () => {
       error: '',
     },
     posts: [],
+    feeds: [],
   };
   
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
@@ -60,7 +76,11 @@ const app = () => {
     .catch(() => {
       stateChanges.form.state = 'invalid';
     });
-});
+ });
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  app();
+});
 
 export default app;
