@@ -15,7 +15,7 @@ const createPost = (elements, state) => {
     divPost.append(divPostCap);
     divPostCap.append(h2PostCap, ulPost);
   
-    state.post.forEach((element) => {
+    state.posts.forEach((element) => {
       
       const li = document.createElement('li');
       li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
@@ -79,4 +79,3 @@ const createPost = (elements, state) => {
   };
 
   export default { createFeeds, createPost };
-  

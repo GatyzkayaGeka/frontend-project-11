@@ -7,7 +7,7 @@ import onChange from 'on-change';
 import ru from './ru.js';
 import axios from 'axios';
 import parseRSS from './parser.js';
-import { createFeeds, createPost } from './creat.js';
+
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
@@ -21,8 +21,19 @@ const validateSS = (url, urls) => {
 };
 
 const addFeed = (url, state) => {
-  return axios
-    .get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`)
+  const proxiUrl = (url) => {
+    const originReferences = new URL('https://allorigins.hexlet.app/get');
+    originReferences.searchParams.set('url', url);
+    originReferences.searchParams.set('disableCache', true);
+    return originReferences.toString();
+  };
+
+  const dataAcquisition = (url) => {
+    const result = proxiUrl(url);
+    return axios.get(result);
+  };
+
+  return dataAcquisition(url)
     .then((response) => {
       const { feed, posts } = parseRSS(response, url);
       state.feeds.push(feed);
@@ -30,7 +41,7 @@ const addFeed = (url, state) => {
     })
     .catch((error) => {
       console.log(error);
-      stateChanges.form.state = 'error';
+      stateChanges.form.states = 'error';
       stateChanges.form.error = error.message;
     });
 };

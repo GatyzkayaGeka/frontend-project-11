@@ -24,3 +24,4 @@ const parseRSS = (response, link) => {
   };
 
 export default parseRSS;
+
