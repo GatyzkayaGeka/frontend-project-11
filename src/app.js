@@ -76,15 +76,22 @@ const app = () => {
     .then((data) => {
       stateChanges.form.state = 'success';
       stateChanges.posts.push(data);
+      addFeed(formData.get('url'), state)
+      .then(() => {
+        // Успешно загружено, обновите состояние и отрисуйте элементы
+        stateChanges.feeds = state.feeds;
+        stateChanges.posts = state.posts;
+      })
+      .catch((error) => {
+        console.log(error);
+        stateChanges.form.state = 'error';
+        stateChanges.form.error = error.message;
+      });
     })
     .catch(() => {
       stateChanges.form.state = 'invalid';
     });
  });
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  app();
-});
 
 export default app;

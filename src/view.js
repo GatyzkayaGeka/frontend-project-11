@@ -11,9 +11,6 @@ const deletionInformation  = (elements) => {
 const formUrl = (elements, value, i18nInstance, state) => {
 const { feedback: isFeedback } = elements;
   switch (value) {
-    //case 'valid':
-      //input.classList.remove('is-invalid');
-      //break;
     case 'invalid':
       deletionInformation(elements);
       elements.input.classList.add('is-invalid');
@@ -36,7 +33,19 @@ const { feedback: isFeedback } = elements;
 };
 
 const render = (elements, state, i18nInstance) => (path, value) => {
-    formUrl(elements, value, i18nInstance);
-  };
-
+  switch (path) {
+    case 'form':
+      formUrl(elements, value, i18nInstance, state);
+      break;
+    case 'feeds':
+      createFeeds(value, elements, i18nInstance);
+      break;
+    case 'posts':
+      createPost(state, value, elements, i18nInstance);
+      break;
+    default:
+      break;
+  }
+};
+    
 export default render;

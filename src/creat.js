@@ -79,3 +79,4 @@ const createPost = (elements, state) => {
   };
 
   export default { createFeeds, createPost };
+  
