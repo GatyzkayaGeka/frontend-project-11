@@ -20,7 +20,7 @@ const validateSS = (url, urls) => {
   return schema.validate(url);
 };
 
-const addFeed = (url, state) => {
+const addFeed = (url, state, stateChanges) => {
   const proxiUrl = (url) => {
     const originReferences = new URL('https://allorigins.hexlet.app/get');
     originReferences.searchParams.set('url', url);
@@ -35,7 +35,7 @@ const addFeed = (url, state) => {
 
   return dataAcquisition(url)
     .then((response) => {
-      const { feed, posts } = parseRSS(response, url);
+      const { feed, posts } = parseRSS(response.data.contents, url);
       state.feeds.push(feed);
       state.posts.push(...posts);
     })
@@ -79,15 +79,17 @@ const app = () => {
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
   // нажимания  и обработка файла для второго шага вив
-  elements.form.addEventListener('submit', (el) => {
-    el.preventDefault();
+  elements.form.addEventListener('submit', (event) => {
+    event.preventDefault();
     const formData = new FormData(el.target);
+    const urls = state.feeds.map((feed) => feed.url);
+    const formDataUrl = formData.get('url');
 
-    validateSS(formData.get('url'), state.posts)
+    validateSS(formDataUrl, urls)
     .then((data) => {
       stateChanges.form.state = 'success';
       stateChanges.posts.push(data);
-      addFeed(formData.get('url'), state)
+      addFeed(formDataUrl, state, stateChanges)
       .then(() => {
         // Успешно загружено, обновите состояние и отрисуйте элементы
         stateChanges.feeds = state.feeds;
