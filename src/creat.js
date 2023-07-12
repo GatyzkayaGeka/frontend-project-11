@@ -12,9 +12,6 @@ const createPost = (elements, state) => {
     const ulPost = document.createElement('ul');
     ulPost.classList.add('list-group', 'border-0', 'rounded-0');
   
-    divPost.append(divPostCap);
-    divPostCap.append(h2PostCap, ulPost);
-  
     state.posts.forEach((element) => {
       
       const li = document.createElement('li');
@@ -34,9 +31,14 @@ const createPost = (elements, state) => {
       button.setAttribute('data-id', element.id);
   
       a.textContent = element.title;
+      button.textContent = 'button';
       
       ulPost.append(li);
       li.append(a, button);
+
+      elements.container.replaceChildren(divPost);
+      divPost.append(divPostCap);
+      divPostCap.append(h2PostCap, ulPost);
   
     });
   };
@@ -71,6 +73,7 @@ const createPost = (elements, state) => {
       pFeeds.classList.add('m-0', 'small', 'text-black-50');
       pFeeds.textContent = element.description;
   
+      elements.container.replaceChildren(divFeeds);
       ulFeeds.append(liFeeds);
       liFeeds.append(h3Feeds, pFeeds);
   
