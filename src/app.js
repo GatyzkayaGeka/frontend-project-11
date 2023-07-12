@@ -20,12 +20,15 @@ const validateSS = (url, urls) => {
   return schema.validate(url);
 };
 
+
+
+
 const addFeed = (url, state, stateChanges) => {
   const proxiUrl = (url) => {
     const originReferences = new URL('https://allorigins.hexlet.app/get');
     originReferences.searchParams.set('url', url);
     originReferences.searchParams.set('disableCache', true);
-    return originReferences.toString();
+    return originReferences;
   };
 
   const dataAcquisition = (url) => {
@@ -55,12 +58,12 @@ const app = () => {
   });
   // ссылки для отрисовки элементов
   const elements = {
+    container: document.querySelector('.container-xxl'),
     form: document.querySelector('.rss-form'),
     input: document.querySelector('input.form-control'),
-    label: document.querySelector('label[for="url-input"]'),
+    // label: document.querySelector('label[for="url-input"]'),
     button: document.querySelector('button[type="submit"]'),
     feedback: document.querySelector('.feedback'),
-    container: document.querySelector('.container-xxl'),
     feeds: document.querySelector('.feeds'),
     posts: document.querySelector('.posts'),
   };
@@ -81,9 +84,10 @@ const app = () => {
   // нажимания  и обработка файла для второго шага вив
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const formData = new FormData(el.target);
-    const urls = state.feeds.map((feed) => feed.url);
+    const formData = new FormData(event.target);
+    
     const formDataUrl = formData.get('url');
+    const urls = state.feeds.map((feed) => feed.url);
 
     validateSS(formDataUrl, urls)
     .then((data) => {
