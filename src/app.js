@@ -20,15 +20,12 @@ const validateSS = (url, urls) => {
   return schema.validate(url);
 };
 
-
-
-
 const addFeed = (url, state, stateChanges) => {
   const proxiUrl = (url) => {
     const originReferences = new URL('https://allorigins.hexlet.app/get');
     originReferences.searchParams.set('url', url);
     originReferences.searchParams.set('disableCache', true);
-    return originReferences;
+    return originReferences.toString();
   };
 
   const dataAcquisition = (url) => {
