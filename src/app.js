@@ -7,6 +7,7 @@ import onChange from 'on-change';
 import ru from './ru.js';
 import axios from 'axios';
 import parseRSS from './parser.js';
+import { createFeeds, createPost } from './creat.js';
 
 
 // проверить на валидность url и на повтор
@@ -14,7 +15,7 @@ const validateSS = (url, urls) => {
   const schema = yup
     .string()
     .trim() // лишние пробелы убераются
-    .notOneOf(urls, 'errors.addedUrlExists') // 'RSS уже существует'
+    .notOneOf(urls, 'addedUrlExists') // 'RSS уже существует'
     .url('invalidUrl') // 'Ссылка должна быть валидным URL'
     .required('must') // 'Поле не должно быть пустым'
   return schema.validate(url);

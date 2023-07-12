@@ -1,3 +1,4 @@
+import onChange from 'on-change';
 const createPost = (elements, state) => {
 
     const divPost = document.createElement('div');
@@ -36,7 +37,6 @@ const createPost = (elements, state) => {
       ulPost.append(li);
       li.append(a, button);
 
-      elements.container.replaceChildren(divPost);
       divPost.append(divPostCap);
       divPostCap.append(h2PostCap, ulPost);
   
@@ -73,7 +73,6 @@ const createPost = (elements, state) => {
       pFeeds.classList.add('m-0', 'small', 'text-black-50');
       pFeeds.textContent = element.description;
   
-      elements.container.replaceChildren(divFeeds);
       ulFeeds.append(liFeeds);
       liFeeds.append(h3Feeds, pFeeds);
   
