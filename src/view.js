@@ -17,7 +17,7 @@ deletionInformation(elements);
       elements.input.classList.add('is-invalid');
       elements.feedback.classList.remove('text-success'); // если не будет работать и это тоже поправить
       elements.feedback.classList.add('text-danger');
-      isFeedback.textContent = i18nInstance.t(`errors.${[state.form.error]}`);
+      isFeedback.textContent = i18nInstance.t(`errors.${state.form.error}`);
       elements.form.reset();
       elements.input.focus();
       break;
