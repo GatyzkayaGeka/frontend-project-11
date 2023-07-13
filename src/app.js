@@ -43,6 +43,7 @@ const addFeed = (url) => {
 //     });
 // };
 
+
 const app = () => {
   const i18nInstance = i18next.createInstance();
   i18nInstance.init({
@@ -115,5 +116,30 @@ const app = () => {
     });
   });
 };
+
+  const checkRSSFeeds = () => {
+    state.feeds.forEach((feed) => {
+      axios
+        .get(addFeed(feed.url))
+        .then((response) => {
+          const rssState = parseRSS(response.data.contents);
+
+          const newPosts = rssState.posts.filter((post) => {
+            return !state.posts.some((existingPost) => existingPost.link === post.link);
+          });
+
+          if (newPosts.length > 0) {
+            stateChanges.posts.unshift(...newPosts);
+          }
+        })
+        .catch((error) => {
+          console.error(`Ошибка при проверке RSS-потока: ${feed.url}`, error);
+        });
+    });
+
+    setTimeout(checkRSSFeeds, 5000);
+  };
+
+checkRSSFeeds();
 
 export default app;
