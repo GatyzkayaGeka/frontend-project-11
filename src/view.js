@@ -38,10 +38,10 @@ const render = (elements, state, i18nInstance) => (path, value) => {
       formUrl(elements, value, i18nInstance, state);
       break;
     case 'feeds':
-      createFeeds(state, elements, i18nInstance);
+      createFeeds(elements,state, i18nInstance);
       break;
     case 'posts':
-      createPost(state, elements, i18nInstance);
+      createPost(elements, state, i18nInstance);
       break;
     default:
       break;
