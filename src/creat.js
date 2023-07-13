@@ -34,7 +34,7 @@ const createPost = (elements, state, i18nInstance) => {
       button.setAttribute('data-bs-toggle', 'modal');
       button.setAttribute('data-bs-target', '#modal');
       button.setAttribute('data-id', element.id); 
-      button.textContent = 'button';
+      button.textContent = i18nInstance.t('button');
       
       ulPost.append(li);
       li.append(a, button);
