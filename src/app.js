@@ -15,37 +15,33 @@ const validateSS = (url, urls) => {
   const schema = yup
     .string()
     .trim() // лишние пробелы убераются
+    .required() // 'Поле не должно быть пустым' потом добавоить в скопки 'must'
     .notOneOf(urls, 'addedUrlExists') // 'RSS уже существует'
     .url('invalidUrl') // 'Ссылка должна быть валидным URL'
-    .required('must') // 'Поле не должно быть пустым'
+    
   return schema.validate(url);
 };
-
-const addFeed = (url, state, stateChanges) => {
-  const proxiUrl = (url) => {
-    const originReferences = new URL('https://allorigins.hexlet.app/get');
-    originReferences.searchParams.set('url', url);
-    originReferences.searchParams.set('disableCache', true);
-    return originReferences.toString();
-  };
-
-  const dataAcquisition = (url) => {
-    const result = proxiUrl(url);
-    return axios.get(result);
-  };
-
-  return dataAcquisition(url)
-    .then((response) => {
-      const { feed, posts } = parseRSS(response.data.contents, url);
-      state.feeds.push(feed);
-      state.posts.push(...posts);
-    })
-    .catch((error) => {
-      console.log(error);
-      stateChanges.form.states = 'error';
-      stateChanges.form.error = error.message;
-    });
+  
+const addFeed = (url) => {
+  const originReferences = new URL('https://allorigins.hexlet.app/get');
+  originReferences.searchParams.set('url', url);
+  originReferences.searchParams.set('disableCache', true);
+  return originReferences;
 };
+
+// const addFeed = (url, state) => {
+//   const originReferences = new URL('https://allorigins.hexlet.app/get');
+//   originReferences.searchParams.set('url', url);
+//   originReferences.searchParams.set('disableCache', true);
+//   originReferences.toString();
+
+//   return axios.get(originReferences)
+//     .then((response) => response.data.contents)
+//     .catch((er) => {
+//       state.form.state = 'error';
+//       state.form.error = er.message;
+//     });
+// };
 
 const app = () => {
   const i18nInstance = i18next.createInstance();
@@ -58,10 +54,9 @@ const app = () => {
   const elements = {
     container: document.querySelector('.container-xxl'),
     form: document.querySelector('.rss-form'),
-    input: document.querySelector('input.form-control'),
-    // label: document.querySelector('label[for="url-input"]'),
-    button: document.querySelector('button[type="submit"]'),
+    input: document.querySelector('#url-input'),
     feedback: document.querySelector('.feedback'),
+    button: document.querySelector('button[type="submit"]'),
     feeds: document.querySelector('.feeds'),
     posts: document.querySelector('.posts'),
   };
@@ -80,33 +75,45 @@ const app = () => {
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
   // нажимания  и обработка файла для второго шага вив
-  elements.form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    
+  elements.form.addEventListener('submit', (e) => {
+    //stateChanges.form.error = null;
+    e.preventDefault();
+    const formData = new FormData(e.target);
     const formDataUrl = formData.get('url');
     const urls = state.feeds.map((feed) => feed.url);
 
     validateSS(formDataUrl, urls)
-    .then((data) => {
-      stateChanges.form.state = 'success';
-      stateChanges.posts.push(data);
-      addFeed(formDataUrl, state, stateChanges)
-      .then(() => {
-        // Успешно загружено, обновите состояние и отрисуйте элементы
-        stateChanges.feeds = state.feeds;
-        stateChanges.posts = state.posts;
-      })
-      .catch((error) => {
-        console.log(error);
-        stateChanges.form.state = 'error';
-        stateChanges.form.error = error.message;
-      });
+    .then((link) => axios.get(addFeed(link)))
+      // stateChanges.form.state = 'sending';
+      // return addFeed(link, stateChanges);
+    // })
+    .then((response) => {
+      // Успешно загружено, обновите состояние и отрисуйте элементы
+      // const { feed, posts } = parseRSS(response.data.contents);
+      const rssState = parseRSS(response.data.contents);
+      // state.feeds.push(feed);
+      // state.posts.push(...posts);
+      // stateChanges.form.state = 'success';
+      // stateChanges.posts.push(data);
+      // stateChanges.feeds = state.feeds;
+      // stateChanges.posts = state.posts;
+      rssState.feed.id = _.uniqueId();
+      rssState.feed.url = formDataUrl;
+      rssState.posts.map((post) => { const idPost = post; idPost.id = _.uniqueId(); return idPost;});
+      stateChanges.form = { state: 'loading', error: '' };
+      stateChanges.feeds.push(rssState.feed);
+      stateChanges.posts.unshift(...rssState.posts);
+      stateChanges.form = { state: 'success', error: '' };
     })
-    .catch(() => {
-      stateChanges.form.state = 'invalid';
+    .catch((error) => {
+      stateChanges.form = { state: 'invalid', error: error.message };
+      if (error.name === 'AxiosError') {
+        stateChanges.form = { state: 'invalid', error: 'networkError' };
+      }
+      // stateChanges.form.state = 'error';
+      // stateChanges.form.error = error.message;
     });
- });
+  });
 };
 
 export default app;

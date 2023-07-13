@@ -12,6 +12,9 @@ const createPost = (elements, state) => {
   
     const ulPost = document.createElement('ul');
     ulPost.classList.add('list-group', 'border-0', 'rounded-0');
+
+    divPost.append(divPostCap);
+    divPostCap.append(h2PostCap, ulPost);
   
     state.posts.forEach((element) => {
       
@@ -37,8 +40,8 @@ const createPost = (elements, state) => {
       ulPost.append(li);
       li.append(a, button);
 
-      divPost.append(divPostCap);
-      divPostCap.append(h2PostCap, ulPost);
+      const { posts } = elements;
+      posts.replaceChildren(divPost);
   
     });
   };
@@ -75,6 +78,9 @@ const createPost = (elements, state) => {
   
       ulFeeds.append(liFeeds);
       liFeeds.append(h3Feeds, pFeeds);
+      
+      const { feeds } = elements;
+      feeds.replaceChildren(divFeeds);
   
     });
   
