@@ -14,14 +14,12 @@ const formUrl = (elements, value, i18nInstance, state) => {
   deletionInformation(elements);
   switch (step) {
     case 'success':
-      //deletionInformation(elements);
       elements.feedback.classList.add('text-success');
       isFeedback.textContent = i18nInstance.t(`status.${step}`);
       elements.form.reset();
       elements.input.focus();
       break;
     case 'invalid':
-      //deletionInformation(elements);
       elements.input.classList.add('is-invalid');
       //elements.feedback.classList.remove('text-success'); 
       elements.feedback.classList.add('text-danger');

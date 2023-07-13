@@ -7,7 +7,7 @@ import onChange from 'on-change';
 import ru from './ru.js';
 import axios from 'axios';
 import parseRSS from './parser.js';
-import { createFeeds, createPost } from './creat.js';
+
 
 
 // проверить на валидность url и на повтор
