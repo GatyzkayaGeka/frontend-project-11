@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-const createPost = (elements, state) => {
+const createPost = (elements, state, i18nInstance) => {
 
     const divPost = document.createElement('div');
     divPost.classList.add('card', 'border-0');
@@ -27,26 +27,25 @@ const createPost = (elements, state) => {
       a.setAttribute('target', '_blank');
       a.setAttribute('data-id', element.id);
       a.setAttribute('rel', 'noopener noreferrer');
+      a.textContent = element.title;
   
       const button = document.createElement('button');
       button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
       button.setAttribute('data-bs-toggle', 'modal');
       button.setAttribute('data-bs-target', '#modal');
-      button.setAttribute('data-id', element.id);
-  
-      a.textContent = element.title;
+      button.setAttribute('data-id', element.id); 
       button.textContent = 'button';
       
       ulPost.append(li);
       li.append(a, button);
-
-      const { posts } = elements;
-      posts.replaceChildren(divPost);
-  
     });
+      
+    const { posts } = elements;
+    posts.replaceChildren(divPost);
+  
   };
   
-const createFeeds = (elements, state) => {
+const createFeeds = (elements, state, i18nInstance) => {
   
   const divFeeds = document.createElement('div');
   divFeeds.classList.add('card', 'border-0');
@@ -78,11 +77,11 @@ const createFeeds = (elements, state) => {
   
     ulFeeds.append(liFeeds);
     liFeeds.append(h3Feeds, pFeeds);
-      
-    const { feeds } = elements;
-    feeds.replaceChildren(divFeeds);
-  
+
   });
+      
+  const { feeds } = elements;
+  feeds.replaceChildren(divFeeds);
   
 };
 
