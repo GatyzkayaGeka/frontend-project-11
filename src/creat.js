@@ -46,44 +46,44 @@ const createPost = (elements, state) => {
     });
   };
   
-  const createFeeds = (elements, state) => {
+const createFeeds = (elements, state) => {
   
-    const divFeeds = document.createElement('div');
-    divFeeds.classList.add('card', 'border-0');
+  const divFeeds = document.createElement('div');
+  divFeeds.classList.add('card', 'border-0');
     
-    const divFeedsCap = document.createElement('div');
-    divFeedsCap.classList.add('card-body');
+  const divFeedsCap = document.createElement('div');
+  divFeedsCap.classList.add('card-body');
     
-    const h2FeedsCap = document.createElement('h2');
-    h2FeedsCap.classList.add('card-title', 'h4');
+  const h2FeedsCap = document.createElement('h2');
+  h2FeedsCap.classList.add('card-title', 'h4');
     
-    const ulFeeds = document.createElement('ul');
-    ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
+  const ulFeeds = document.createElement('ul');
+  ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
     
-    divFeeds.append(divFeedsCap);
-    divFeedsCap.append(h2FeedsCap, ulFeeds);
+  divFeeds.append(divFeedsCap);
+  divFeedsCap.append(h2FeedsCap, ulFeeds);
   
-    state.feeds.forEach((element) => {
+  state.feeds.forEach((element) => {
       
-      const liFeeds = document.createElement('li');
-      liFeeds.classList.add('list-group-item', 'border-0', 'border-end-0');
+    const liFeeds = document.createElement('li');
+    liFeeds.classList.add('list-group-item', 'border-0', 'border-end-0');
   
-      const h3Feeds = document.createElement('h3');
-      h3Feeds.classList.add('h6', 'm-0');
-      h3Feeds.textContent = element.title;
+    const h3Feeds = document.createElement('h3');
+    h3Feeds.classList.add('h6', 'm-0');
+    h3Feeds.textContent = element.title;
   
-      const pFeeds = document.createElement('p');
-      pFeeds.classList.add('m-0', 'small', 'text-black-50');
-      pFeeds.textContent = element.description;
+    const pFeeds = document.createElement('p');
+    pFeeds.classList.add('m-0', 'small', 'text-black-50');
+    pFeeds.textContent = element.description;
   
-      ulFeeds.append(liFeeds);
-      liFeeds.append(h3Feeds, pFeeds);
+    ulFeeds.append(liFeeds);
+    liFeeds.append(h3Feeds, pFeeds);
       
-      const { feeds } = elements;
-      feeds.replaceChildren(divFeeds);
+    const { feeds } = elements;
+    feeds.replaceChildren(divFeeds);
   
-    });
+  });
   
-  };
+};
 
-  export default { createFeeds, createPost };
+export { createFeeds, createPost };
