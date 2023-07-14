@@ -43,36 +43,7 @@ const addFeed = (url) => {
 //     });
 // };
 
-const checkRSSFeeds = () => {
-  const updatePromises = state.feeds.map((feed) => {
-    return fetch(addFeed(feed.url))
-      .then((response) => response.text())
-      .then((data) => {
-        const rssState = parseRSS(data);
 
-        const newPosts = rssState.posts.filter((post) => {
-          return !state.posts.some((existingPost) => existingPost.link === post.link);
-        });
-
-        return newPosts;
-      });
-  });
-
-  Promise.all(updatePromises)
-    .then((newPostsArray) => {
-      const newPosts = newPostsArray.flat();
-
-      if (newPosts.length > 0) {
-        stateChanges.posts.unshift(...newPosts);
-      }
-    })
-    .catch((error) => {
-      console.error('Ошибка при проверке RSS-потоков', error);
-    })
-    .finally(() => {
-      setTimeout(checkRSSFeeds, 5000);
-    });
-};
 
 const app = () => {
   const i18nInstance = i18next.createInstance();
@@ -105,7 +76,36 @@ const app = () => {
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
-  checkRSSFeeds(stateChanges);
+  const checkRSSFeeds = () => {
+    const updatePromises = state.feeds.map((feed) => {
+      return axios.get(addFeed(feed.url))
+        .then((response) => {
+          const data = response.data;
+          const rssState = parseRSS(data);
+  
+          const newPosts = rssState.posts.filter((post) => {
+            return !state.posts.some((existingPost) => existingPost.link === post.link);
+          });
+  
+          return newPosts;
+        });
+    });
+  
+    Promise.all(updatePromises)
+      .then((newPostsArray) => {
+        const newPosts = newPostsArray.flat();
+  
+        if (newPosts.length > 0) {
+          stateChanges.posts.unshift(...newPosts);
+        }
+      })
+      .catch((error) => {
+        console.error('Ошибка при проверке RSS-потоков', error);
+      })
+      .finally(() => {
+        setTimeout(checkRSSFeeds, 5000);
+      });
+  };
 
   // нажимания  и обработка файла для второго шага вив
   elements.form.addEventListener('submit', (e) => {
@@ -147,6 +147,8 @@ const app = () => {
       // stateChanges.form.error = error.message;
     });
   });
+
+  checkRSSFeeds();
 };
 
 export default app;
