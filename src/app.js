@@ -139,7 +139,11 @@ const app = () => {
       // stateChanges.posts = state.posts;
       rssState.feed.id = _.uniqueId();
       rssState.feed.url = formDataUrl;
-      rssState.posts.map((post) => { const idPost = post; idPost.id = _.uniqueId(); return idPost;});
+      rssState.posts.map((post) => {
+        const idPost = post; 
+        idPost.id = _.uniqueId(); 
+        return idPost;
+      });
       
       stateChanges.form = { state: 'loading', error: '' };
       stateChanges.feeds.push(rssState.feed);
@@ -154,6 +158,18 @@ const app = () => {
       // stateChanges.form.state = 'error';
       // stateChanges.form.error = error.message;
     });
+  });
+
+  elements.posts.addEventListener('click', (e) => {
+    const postId = e.target.getAttribute('data-id');
+    if (postId) {
+      stateChanges.modal.previewPostId = postId;
+      const postElement = document.querySelector(`a[data-id="${postId}"]`);
+      if (postElement) {
+        postElement.classList.remove('fw-bold');
+        postElement.classList.add('fw-normal');
+      }
+    }
   });
 
   checkRSSFeeds();
