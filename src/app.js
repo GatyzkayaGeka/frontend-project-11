@@ -83,6 +83,11 @@ const app = () => {
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
+  // Обработка изменений в состоянии модального окна
+  const modalChanges = onChange(state.modal, () => {
+    modalCreat(state, elements);
+  });
+
   const checkRSSFeeds = () => {
     const updatePromises = state.feeds.map((feed) => {
       return axios.get(addFeed(feed.url))
@@ -175,11 +180,7 @@ const app = () => {
   elements.buttonModal.addEventListener('click', () => {
     const currentPost = state.posts.find((post) => post.id === state.modal.postsModal);
     if (currentPost) {
-      const link = document.createElement('a');
-      link.href = currentPost.link;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.click();
+      window.open(currentPost.link, '_blank');
     }
   });
 
