@@ -84,9 +84,6 @@ const app = () => {
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
   // Обработка изменений в состоянии модального окна
-  const modalChanges = onChange(state.modal, () => {
-    modalCreat(state, elements);
-  });
 
   const checkRSSFeeds = () => {
     const updatePromises = state.feeds.map((feed) => {
@@ -169,11 +166,7 @@ const app = () => {
     const postId = e.target.getAttribute('data-id');
     if (postId) {
       stateChanges.modal.postsModal = postId;
-      const postElement = document.querySelector(`a[data-id="${postId}"]`);
-      if (postElement) {
-        postElement.classList.remove('fw-bold');
-        postElement.classList.add('fw-normal');
-      }
+      
     }
   });
 

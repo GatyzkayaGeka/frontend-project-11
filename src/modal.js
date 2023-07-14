@@ -11,8 +11,6 @@ const { postsModal } = state.modal;
     elements.bodyModal.textContent = '';
     elements.buttonModal.removeAttribute('href');
   }
-
-  modalChanges();
 };
 
 export default modalCreat;
