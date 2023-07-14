@@ -43,6 +43,36 @@ const addFeed = (url) => {
 //     });
 // };
 
+const checkRSSFeeds = () => {
+  const updatePromises = state.feeds.map((feed) => {
+    return fetch(addFeed(feed.url))
+      .then((response) => response.text())
+      .then((data) => {
+        const rssState = parseRSS(data);
+
+        const newPosts = rssState.posts.filter((post) => {
+          return !state.posts.some((existingPost) => existingPost.link === post.link);
+        });
+
+        return newPosts;
+      });
+  });
+
+  Promise.all(updatePromises)
+    .then((newPostsArray) => {
+      const newPosts = newPostsArray.flat();
+
+      if (newPosts.length > 0) {
+        stateChanges.posts.unshift(...newPosts);
+      }
+    })
+    .catch((error) => {
+      console.error('Ошибка при проверке RSS-потоков', error);
+    })
+    .finally(() => {
+      setTimeout(checkRSSFeeds, 5000);
+    });
+};
 
 const app = () => {
   const i18nInstance = i18next.createInstance();
@@ -74,6 +104,8 @@ const app = () => {
   
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
+
+  checkRSSFeeds(stateChanges);
 
   // нажимания  и обработка файла для второго шага вив
   elements.form.addEventListener('submit', (e) => {
@@ -116,30 +148,5 @@ const app = () => {
     });
   });
 };
-
-  const checkRSSFeeds = () => {
-    state.feeds.forEach((feed) => {
-      axios
-        .get(addFeed(feed.url))
-        .then((response) => {
-          const rssState = parseRSS(response.data.contents);
-
-          const newPosts = rssState.posts.filter((post) => {
-            return !state.posts.some((existingPost) => existingPost.link === post.link);
-          });
-
-          if (newPosts.length > 0) {
-            stateChanges.posts.unshift(...newPosts);
-          }
-        })
-        .catch((error) => {
-          console.error(`Ошибка при проверке RSS-потока: ${feed.url}`, error);
-        });
-    });
-
-    setTimeout(checkRSSFeeds, 5000);
-  };
-
-checkRSSFeeds();
 
 export default app;
