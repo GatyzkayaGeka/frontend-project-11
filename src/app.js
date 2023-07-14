@@ -163,7 +163,7 @@ const app = () => {
   elements.posts.addEventListener('click', (e) => {
     const postId = e.target.getAttribute('data-id');
     if (postId) {
-      stateChanges.modal.previewPostId = postId;
+      stateChanges.modal.postsModal = postId;
       const postElement = document.querySelector(`a[data-id="${postId}"]`);
       if (postElement) {
         postElement.classList.remove('fw-bold');
