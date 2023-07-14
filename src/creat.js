@@ -36,8 +36,14 @@ const createPost = (elements, state, i18nInstance) => {
       button.setAttribute('data-id', element.id); 
       button.textContent = i18nInstance.t('button');
       
+      button.addEventListener('click', (e) => {
+        const postId = e.target.getAttribute('data-id');
+        state.modal.postsModal = postId;
+      });
+      
       ulPost.append(li);
       li.append(a, button);
+
     });
       
     const { posts } = elements;
@@ -45,7 +51,7 @@ const createPost = (elements, state, i18nInstance) => {
   
   };
   
-const createFeeds = (elements, state, i18nInstance) => {
+const createFeeds = (elements, state) => {
   
   const divFeeds = document.createElement('div');
   divFeeds.classList.add('card', 'border-0');

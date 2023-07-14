@@ -61,6 +61,9 @@ const app = () => {
     button: document.querySelector('button[type="submit"]'),
     feeds: document.querySelector('.feeds'),
     posts: document.querySelector('.posts'),
+    titleModal: document.querySelector('.modal-title'),
+    bodyModal: document.querySelector('.modal-body'),
+    buttonModal: document.querySelector('a[role="button"]'),
   };
   
   // объект состояния
@@ -71,6 +74,10 @@ const app = () => {
     },
     posts: [],
     feeds: [],
+    modal: {
+      postsModal: '',
+      feedsModal: [],
+    },
   };
   
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
@@ -133,6 +140,7 @@ const app = () => {
       rssState.feed.id = _.uniqueId();
       rssState.feed.url = formDataUrl;
       rssState.posts.map((post) => { const idPost = post; idPost.id = _.uniqueId(); return idPost;});
+      
       stateChanges.form = { state: 'loading', error: '' };
       stateChanges.feeds.push(rssState.feed);
       stateChanges.posts.unshift(...rssState.posts);

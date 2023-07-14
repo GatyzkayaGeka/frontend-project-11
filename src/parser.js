@@ -22,7 +22,7 @@ const parseRSS = (response) => {
       const title = el.querySelector('title').textContent;
       const description = el.querySelector('description').textContent;
       const link = el.querySelector('link').textContent;
-      return { link, title, description};
+      return { link, title, description };
     });
     return  { feed, posts };
   } catch (err) {

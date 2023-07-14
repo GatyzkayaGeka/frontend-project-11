@@ -1,5 +1,6 @@
 import onChange from 'on-change';
 import { createFeeds, createPost } from './creat.js';
+import modalCreat from './modal.js';
 
 const deletionInformation  = (elements) => {
   const { input, feedback } = elements;
@@ -32,16 +33,34 @@ const formUrl = (elements, value, i18nInstance, state) => {
   }
 };
 
+const readPost = (state) => {
+
+  const { posts } = state;
+
+  posts.forEach((post) => {
+    const link = document.querySelector(`a[data-id="${post.id}"]`);
+    link.classList.remove('fw-bold');
+    link.classList.add('fw-normal', 'link-secondary');
+  });
+  
+};
+
 const render = (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
     case 'form':
       formUrl(elements, value, i18nInstance, state);
       break;
     case 'feeds':
-      createFeeds(elements,state, i18nInstance);
+      createFeeds(elements, state, i18nInstance);
       break;
     case 'posts':
       createPost(elements, state, i18nInstance);
+      break;
+    case 'modal.postsModal':
+      modalCreat(state, value, elements);
+      break;
+    case 'modal.feedsModal':
+      readPost(state);
       break;
     default:
       break;
