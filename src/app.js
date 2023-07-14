@@ -166,9 +166,13 @@ const app = () => {
     const postId = e.target.getAttribute('data-id');
     if (postId) {
       stateChanges.modal.postsModal = postId;
-      
+      const postElement = document.querySelector(`a[data-id="${postId}"]`);
+      if (postElement) {
+        postElement.classList.remove('fw-bold');
+        postElement.classList.add('fw-normal');
+      }
     }
-  });
+});
 
   elements.buttonModal.addEventListener('click', () => {
     const currentPost = state.posts.find((post) => post.id === state.modal.postsModal);

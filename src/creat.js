@@ -28,6 +28,8 @@ const createPost = (elements, state, i18nInstance) => {
       a.setAttribute('data-id', element.id);
       a.setAttribute('rel', 'noopener noreferrer');
       a.textContent = element.title;
+
+      
   
       const button = document.createElement('button');
       button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
