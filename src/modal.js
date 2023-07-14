@@ -6,7 +6,10 @@ const { postsModal } = state.modal;
   elements.titleModal.textContent = currentPost.title;
   elements.bodyModal.textContent = currentPost.description;
   elements.buttonModal.setAttribute('href', currentPost.link);
-
+  } else {
+    elements.titleModal.textContent = '';
+    elements.bodyModal.textContent = '';
+    elements.buttonModal.removeAttribute('href');
   }
 };
 
