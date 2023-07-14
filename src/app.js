@@ -174,12 +174,12 @@ const app = () => {
     }
 });
 
-  elements.buttonModal.addEventListener('click', () => {
-    const currentPost = state.posts.find((post) => post.id === state.modal.postsModal);
-    if (currentPost) {
-      window.open(currentPost.link, '_blank');
-    }
-  });
+  // elements.buttonModal.addEventListener('click', () => {
+  //   const currentPost = state.posts.find((post) => post.id === state.modal.postsModal);
+  //   if (currentPost) {
+  //     window.open(currentPost.link, '_blank');
+  //   }
+  // });
 
   checkRSSFeeds();
 };
