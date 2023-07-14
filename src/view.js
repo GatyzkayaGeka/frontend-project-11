@@ -57,7 +57,7 @@ const render = (elements, state, i18nInstance) => (path, value) => {
       createPost(elements, state, i18nInstance);
       break;
     case 'modal.postsModal':
-      modalCreat(state, value, elements);
+      modalCreat(state, elements);
       break;
     case 'modal.feedsModal':
       readPost(state);

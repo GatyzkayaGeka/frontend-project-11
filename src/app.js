@@ -172,6 +172,17 @@ const app = () => {
     }
   });
 
+  elements.buttonModal.addEventListener('click', () => {
+    const currentPost = state.posts.find((post) => post.id === state.modal.postsModal);
+    if (currentPost) {
+      const link = document.createElement('a');
+      link.href = currentPost.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.click();
+    }
+  });
+
   checkRSSFeeds();
 };
 
