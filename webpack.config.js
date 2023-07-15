@@ -5,18 +5,18 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new HtmlWebpackPlugin({
-       template: 'index.html',
+      template: 'index.html',
     }),
   ],
   mode: 'development',
   devServer: {
     static: path.resolve(__dirname, 'dist'),
     port: 8080,
-    hot: true
+    hot: true,
   },
   module: {
     rules: [
@@ -37,6 +37,5 @@ module.exports = {
         use: 'file-loader',
       },
     ],
-  }
-}
-
+  },
+};

@@ -1,8 +1,7 @@
-import onChange from 'on-change';
 import { createFeeds, createPost } from './creat.js';
 import modalCreat from './modal.js';
 
-const deletionInformation  = (elements) => {
+const deletionInformation = (elements) => {
   const { input, feedback } = elements;
   input.classList.remove('is-invalid');
   feedback.classList.remove('text-danger');
@@ -22,19 +21,17 @@ const formUrl = (elements, value, i18nInstance, state) => {
       break;
     case 'invalid':
       elements.input.classList.add('is-invalid');
-      //elements.feedback.classList.remove('text-success'); 
       elements.feedback.classList.add('text-danger');
       isFeedback.textContent = i18nInstance.t(`errors.${state.form.error}`);
       elements.form.reset();
       elements.input.focus();
-      break;  
+      break;
     default:
       break;
   }
 };
 
 const readPost = (state) => {
-
   const { posts } = state;
 
   posts.forEach((post) => {
@@ -42,7 +39,6 @@ const readPost = (state) => {
     link.classList.remove('fw-bold');
     link.classList.add('fw-normal', 'link-secondary');
   });
-  
 };
 
 const render = (elements, state, i18nInstance) => (path, value) => {
@@ -66,5 +62,5 @@ const render = (elements, state, i18nInstance) => (path, value) => {
       break;
   }
 };
-    
+
 export default render;

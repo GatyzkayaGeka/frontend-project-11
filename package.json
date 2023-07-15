@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@playwright/test": "^1.36.1",
     "@webpack-cli/generators": "^3.0.4",
     "autoprefixer": "^10.4.14",
     "css-loader": "^6.8.1",
@@ -39,7 +40,7 @@
     "type": "git",
     "url": "git+https://github.com/GatyzkayaGeka/frontend-project-11.git"
   },
-  "author": "",
+  "author": "GatyzkayaGeka",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GatyzkayaGeka/frontend-project-11/issues"

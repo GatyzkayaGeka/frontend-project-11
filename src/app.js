@@ -2,13 +2,11 @@ import * as yup from 'yup';
 import _ from 'lodash';
 import i18next from 'i18next';
 import './styles.scss';
-import render from './view.js';
 import onChange from 'on-change';
-import ru from './ru.js';
 import axios from 'axios';
+import render from './view.js';
+import ru from './ru.js';
 import parseRSS from './parser.js';
-
-
 
 // проверить на валидность url и на повтор
 const validateSS = (url, urls) => {
@@ -17,11 +15,11 @@ const validateSS = (url, urls) => {
     .trim() // лишние пробелы убераются
     .required() // 'Поле не должно быть пустым' потом добавоить в скопки 'must'
     .notOneOf(urls, 'addedUrlExists') // 'RSS уже существует'
-    .url('invalidUrl') // 'Ссылка должна быть валидным URL'
-    
+    .url('invalidUrl'); // 'Ссылка должна быть валидным URL'
+
   return schema.validate(url);
 };
-  
+
 const addFeed = (url) => {
   const originReferences = new URL('https://allorigins.hexlet.app/get');
   originReferences.searchParams.set('url', url);
@@ -43,8 +41,6 @@ const addFeed = (url) => {
 //     });
 // };
 
-
-
 const app = () => {
   const i18nInstance = i18next.createInstance();
   i18nInstance.init({
@@ -65,9 +61,9 @@ const app = () => {
     bodyModal: document.querySelector('.modal-body'),
     buttonModal: document.querySelector('a[role="button"]'),
   };
-  
+
   // объект состояния
-  const state = { 
+  const state = {
     form: {
       state: 'filling',
       error: '',
@@ -79,31 +75,27 @@ const app = () => {
       feedsModal: [],
     },
   };
-  
+
   // когда будет меняться стейт но вызываем рендер, и он будет рисовать страницу
   const stateChanges = onChange(state, render(elements, state, i18nInstance));
 
   // Обработка изменений в состоянии модального окна
 
   const checkRSSFeeds = () => {
-    const updatePromises = state.feeds.map((feed) => {
-      return axios.get(addFeed(feed.url))
-        .then((response) => {
-          const data = response.data;
-          const rssState = parseRSS(data);
-  
-          const newPosts = rssState.posts.filter((post) => {
-            return !state.posts.some((existingPost) => existingPost.link === post.link);
-          });
-  
-          return newPosts;
-        });
-    });
-  
+    const updatePromises = state.feeds.map((feed) => axios.get(addFeed(feed.url))
+      .then((response) => {
+        const { data } = response;
+        const rssState = parseRSS(data);
+
+        const newPosts = rssState.posts.filter((post) => !state.posts.some((existingPost) => existingPost.link === post.link));
+
+        return newPosts;
+      }));
+
     Promise.all(updatePromises)
       .then((newPostsArray) => {
         const newPosts = newPostsArray.flat();
-  
+
         if (newPosts.length > 0) {
           stateChanges.posts.unshift(...newPosts);
         }
@@ -118,48 +110,48 @@ const app = () => {
 
   // нажимания  и обработка файла для второго шага вив
   elements.form.addEventListener('submit', (e) => {
-    //stateChanges.form.error = null;
+    // stateChanges.form.error = null;
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataUrl = formData.get('url');
     const urls = state.feeds.map((feed) => feed.url);
 
     validateSS(formDataUrl, urls)
-    .then((link) => axios.get(addFeed(link)))
+      .then((link) => axios.get(addFeed(link)))
       // stateChanges.form.state = 'sending';
       // return addFeed(link, stateChanges);
     // })
-    .then((response) => {
+      .then((response) => {
       // Успешно загружено, обновите состояние и отрисуйте элементы
       // const { feed, posts } = parseRSS(response.data.contents);
-      const rssState = parseRSS(response.data.contents);
-      // state.feeds.push(feed);
-      // state.posts.push(...posts);
-      // stateChanges.form.state = 'success';
-      // stateChanges.posts.push(data);
-      // stateChanges.feeds = state.feeds;
-      // stateChanges.posts = state.posts;
-      rssState.feed.id = _.uniqueId();
-      rssState.feed.url = formDataUrl;
-      rssState.posts.map((post) => {
-        const idPost = post; 
-        idPost.id = _.uniqueId(); 
-        return idPost;
-      });
-      
-      stateChanges.form = { state: 'loading', error: '' };
-      stateChanges.feeds.push(rssState.feed);
-      stateChanges.posts.unshift(...rssState.posts);
-      stateChanges.form = { state: 'success', error: '' };
-    })
-    .catch((error) => {
-      stateChanges.form = { state: 'invalid', error: error.message };
-      if (error.name === 'AxiosError') {
-        stateChanges.form = { state: 'invalid', error: 'networkError' };
-      }
+        const rssState = parseRSS(response.data.contents);
+        // state.feeds.push(feed);
+        // state.posts.push(...posts);
+        // stateChanges.form.state = 'success';
+        // stateChanges.posts.push(data);
+        // stateChanges.feeds = state.feeds;
+        // stateChanges.posts = state.posts;
+        rssState.feed.id = _.uniqueId();
+        rssState.feed.url = formDataUrl;
+        rssState.posts.map((post) => {
+          const idPost = post;
+          idPost.id = _.uniqueId();
+          return idPost;
+        });
+
+        stateChanges.form = { state: 'loading', error: '' };
+        stateChanges.feeds.push(rssState.feed);
+        stateChanges.posts.unshift(...rssState.posts);
+        stateChanges.form = { state: 'success', error: '' };
+      })
+      .catch((error) => {
+        stateChanges.form = { state: 'invalid', error: error.message };
+        if (error.name === 'AxiosError') {
+          stateChanges.form = { state: 'invalid', error: 'networkError' };
+        }
       // stateChanges.form.state = 'error';
       // stateChanges.form.error = error.message;
-    });
+      });
   });
 
   elements.posts.addEventListener('click', (e) => {
@@ -172,14 +164,7 @@ const app = () => {
         postElement.classList.add('fw-normal');
       }
     }
-});
-
-  // elements.buttonModal.addEventListener('click', () => {
-  //   const currentPost = state.posts.find((post) => post.id === state.modal.postsModal);
-  //   if (currentPost) {
-  //     window.open(currentPost.link, '_blank');
-  //   }
-  // });
+  });
 
   checkRSSFeeds();
 };
