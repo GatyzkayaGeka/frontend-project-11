@@ -85,12 +85,12 @@ const app = () => {
     const updatePromises = state.feeds.map((feed) => {
       return axios.get(addFeed(feed.url))
         .then((response) => {
-          const data = response.data;
+          const { data } = response;
           const rssState = parseRSS(data);
 
-          const newPosts = rssState.posts.filter((post) => {
-            return !state.posts.some((existingPost) => existingPost.link === post.link);
-          });
+          const newPosts = rssState.posts.filter(
+            (post) => !state.posts.some((existingPost) => existingPost.link === post.link)
+          );
 
           return newPosts;
         });
@@ -99,7 +99,6 @@ const app = () => {
     Promise.all(updatePromises)
       .then((newPostsArray) => {
         const newPosts = newPostsArray.flat();
-
         if (newPosts.length > 0) {
           stateChanges.posts.unshift(...newPosts);
         }
@@ -138,9 +137,7 @@ const app = () => {
         rssState.feed.id = _.uniqueId();
         rssState.feed.url = formDataUrl;
         rssState.posts.map((post) => {
-          const idPost = post;
-          idPost.id = _.uniqueId();
-          return idPost;
+          post.id = _.uniqueId();
         });
 
         stateChanges.form = { state: 'loading', error: '' };

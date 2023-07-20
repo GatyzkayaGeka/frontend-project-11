@@ -35,7 +35,7 @@ const createPost = (elements, state, i18nInstance) => {
 
     button.addEventListener('click', (e) => {
       const postId = e.target.getAttribute('data-id');
-      state.modal.postsModal = postId;
+      stateChanges.modal.postsModal = postId;
     });
 
     ulPost.append(li);
