@@ -147,6 +147,7 @@ const app = () => {
         stateChanges.feeds.push(rssState.feed);
         stateChanges.posts.unshift(...rssState.posts);
         stateChanges.form = { state: 'success', error: '' };
+        console.log('state:', state); // Отладочный вывод для проверки состояния state после обновления
       })
       .catch((error) => {
         stateChanges.form = { state: 'invalid', error: error.message };
@@ -162,6 +163,7 @@ const app = () => {
     const postId = e.target.getAttribute('data-id');
     if (postId) {
       stateChanges.modal.postsModal = postId;
+      console.log('postId:', postId); // Отладочный вывод для проверки postId
       const postElement = document.querySelector(`a[data-id="${postId}"]`);
       if (postElement) {
         postElement.classList.remove('fw-bold');
