@@ -82,15 +82,19 @@ const app = () => {
   // Обработка изменений в состоянии модального окна
 
   const checkRSSFeeds = () => {
-    const updatePromises = state.feeds.map((feed) => axios.get(addFeed(feed.url))
-      .then((response) => {
-        const { data } = response;
-        const rssState = parseRSS(data);
+    const updatePromises = state.feeds.map((feed) => {
+      return axios.get(addFeed(feed.url))
+        .then((response) => {
+          const data = response.data;
+          const rssState = parseRSS(data);
 
-        const newPosts = rssState.posts.filter((post) => !state.posts.some((existingPost) => existingPost.link === post.link));
+          const newPosts = rssState.posts.filter((post) => {
+            return !state.posts.some((existingPost) => existingPost.link === post.link);
+          });
 
-        return newPosts;
-      }));
+          return newPosts;
+        });
+    });
 
     Promise.all(updatePromises)
       .then((newPostsArray) => {
