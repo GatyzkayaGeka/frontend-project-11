@@ -144,7 +144,7 @@ const app = () => {
       elements.posts.addEventListener('click', (e) => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
-          state.modal.postsModal.add(postId); // Добавляем id поста в состояние для отметки как просмотренного
+          stateChanges.modal.postsModal = postId; // Добавляем id поста в состояние для отметки как просмотренного
           console.log('postId:', postId); // Отладочный вывод для проверки postId
           updatePostElement(postId, state.modal.postsModal);
           // const postElement = document.querySelector(`a[data-id="${postId}"]`);
