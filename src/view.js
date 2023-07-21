@@ -18,6 +18,8 @@ const formUrl = (elements, value, i18nInstance, state) => {
       isFeedback.textContent = i18nInstance.t(`status.${step}`);
       elements.form.reset();
       elements.input.focus();
+      elements.button.disabled = false;
+      elements.input.disabled = false;
       break;
     case 'invalid':
       elements.input.classList.add('is-invalid');
@@ -25,6 +27,8 @@ const formUrl = (elements, value, i18nInstance, state) => {
       isFeedback.textContent = i18nInstance.t(`errors.${state.form.error}`);
       elements.form.reset();
       elements.input.focus();
+      elements.button.disabled = false;
+      elements.input.disabled = false;
       break;
     case 'sending':
       elements.button.disabled = true;
