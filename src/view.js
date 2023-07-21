@@ -78,7 +78,6 @@ const render = (elements, state, i18nInstance) => (path, value) => {
       break;
     case 'modal.postsModal':
       modalCreat(state, elements);
-      readPost(state); // При обновлении модального окна также отмечаем посты как просмотренные
       break;
     case 'modal.feedsModal':
       readPost(state);
