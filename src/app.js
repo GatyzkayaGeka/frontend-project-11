@@ -71,27 +71,25 @@ const app = () => {
 
       const checkRSSFeeds = () => {
         const timeUpdate = 5000;
-        const updatePromises = state.feeds.map((feed) =>
-          axios.get(preparationUrl(feed.url))
-            .then((response) => {
-              const { data } = response;
-              const rssState = parseRSS(data);
+        const updatePromises = state.feeds.map((feed) => axios.get(preparationUrl(feed.url))
+          .then((response) => {
+            const { data } = response;
+            const rssState = parseRSS(data);
+            const newPosts = rssState.posts.filter(
+              (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
+            );
+            return newPosts;
 
-              const newPosts = rssState.posts.filter(
-                (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
-              );
-
-              return newPosts;
-            })
-            .catch((error) => {
-            // Обработка ошибки невалидного RSS
-              if (error.message === 'invalidRss') {
-                console.error('Ресурс не содержит валидный RSS');
-              } else {
-                console.error('Ошибка при получении RSS-потока', error);
-              }
-              return []; // Возвращаем пустой массив, чтобы промис не был отклонен
-            })
+          })
+          .catch((error) => {
+          // Обработка ошибки невалидного RSS
+            if (error.message === 'invalidRss') {
+              console.error('Ресурс не содержит валидный RSS');
+            } else {
+              console.error('Ошибка при получении RSS-потока', error);
+            }
+            return []; // Возвращаем пустой массив, чтобы промис не был отклонен
+          })
         );
 
         Promise.all(updatePromises)
