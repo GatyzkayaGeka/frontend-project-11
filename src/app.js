@@ -71,8 +71,8 @@ const app = () => {
 
       const checkRSSFeeds = () => {
         const timeUpdate = 5000;
-        const updatePromises = state.feeds.map((feed) => {
-          return axios.get(preparationUrl(feed.url))
+        const updatePromises = state.feeds.map((feed) =>
+          axios.get(preparationUrl(feed.url))
             .then((response) => {
               const { data } = response;
               const rssState = parseRSS(data);
@@ -85,14 +85,14 @@ const app = () => {
             })
             .catch((error) => {
             // Обработка ошибки невалидного RSS
-            if (error.message === 'invalidRss') {
-              console.error('Ресурс не содержит валидный RSS');
-            } else {
-              console.error('Ошибка при получении RSS-потока', error);
-            }
+              if (error.message === 'invalidRss') {
+                console.error('Ресурс не содержит валидный RSS');
+              } else {
+                console.error('Ошибка при получении RSS-потока', error);
+              }
               return []; // Возвращаем пустой массив, чтобы промис не был отклонен
-            });
-        });
+            })
+        );
 
         Promise.all(updatePromises)
           .then((newPostsArray) => {
@@ -127,8 +127,9 @@ const app = () => {
             const rssState = parseRSS(response.data.contents);
             rssState.feed.id = _.uniqueId();
             rssState.feed.url = formDataUrl;
-            rssState.posts.map((post) => {
+            rssState.posts = rssState.posts.map((post) => {
               post.id = _.uniqueId();
+              return post;
             });
 
             stateChanges.feeds.push(rssState.feed);

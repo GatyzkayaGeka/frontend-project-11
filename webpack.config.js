@@ -1,16 +1,16 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+// import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(dirname, 'dist'),
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -19,7 +19,7 @@ export default {
   ],
   mode: 'development',
   devServer: {
-    static: path.resolve(__dirname, 'dist'),
+    static: path.resolve(dirname, 'dist'),
     port: 8080,
     hot: true,
   },
