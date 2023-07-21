@@ -13,14 +13,14 @@ const parseRSS = (response) => {
     const feed = {
       title: parseData.querySelector('title').textContent,
       description: parseData.querySelector('description').textContent,
-      // url: link,
     };
 
     const posts = Array.from(parseData.querySelectorAll('item')).map((el) => {
       const title = el.querySelector('title').textContent;
       const description = el.querySelector('description').textContent;
       const link = el.querySelector('link').textContent;
-      return { link, title, description };
+      const id = _.uniqueId();
+      return { id, link, title, description };
     });
     return { feed, posts };
   } catch (err) {
