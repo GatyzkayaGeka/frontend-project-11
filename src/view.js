@@ -1,4 +1,4 @@
-import { createFeeds, createPost } from './creat.js';
+import { createFeeds, createPost } from './create.js';
 import modalCreat from './modal.js';
 
 const deletionInformation = (elements) => {
@@ -26,6 +26,10 @@ const formUrl = (elements, value, i18nInstance, state) => {
       elements.form.reset();
       elements.input.focus();
       break;
+    case 'sending':
+      elements.button.disabled = true;
+      elements.input.disabled = true;
+      break;
     default:
       break;
   }
@@ -39,6 +43,22 @@ const readPost = (state) => {
     link.classList.remove('fw-bold');
     link.classList.add('fw-normal', 'link-secondary');
   });
+};
+
+const updatePostElement = (postId, visitedPosts) => {
+  const postElement = document.querySelector(`a[data-id="${postId}"]`);
+
+  if (postElement) {
+    postElement.classList.remove('fw-bold');
+    postElement.classList.remove('fw-normal');
+
+    // Проверяем, является ли пост просмотренным
+    if (visitedPosts.has(postId)) {
+      postElement.classList.add('fw-normal');
+    } else {
+      postElement.classList.add('fw-bold');
+    }
+  }
 };
 
 const render = (elements, state, i18nInstance) => (path, value) => {
@@ -63,4 +83,5 @@ const render = (elements, state, i18nInstance) => (path, value) => {
   }
 };
 
-export default render;
+// export default render;
+export { render, updatePostElement };

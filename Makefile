@@ -8,8 +8,7 @@ start:
 	npm start
 
 webpack:
-    npx webpack serve
+	npx webpack serve
 
 build:
 	npx webpack --mode=development
-	

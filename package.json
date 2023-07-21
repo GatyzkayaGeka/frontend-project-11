@@ -1,6 +1,5 @@
 {
   "devDependencies": {
-    "@playwright/test": "^1.36.1",
     "@webpack-cli/generators": "^3.0.4",
     "autoprefixer": "^10.4.14",
     "css-loader": "^6.8.1",
@@ -25,9 +24,10 @@
     "sass-loader": "^13.3.1",
     "yup": "^1.2.0"
   },
-  "name": "@hexlet/code.",
-  "description": "[![Actions Status](https://github.com/GatyzkayaGeka/frontend-project-11/workflows/hexlet-check/badge.svg)](https://github.com/GatyzkayaGeka/frontend-project-11/actions)",
+  "name": "@hexlet/code",
+  "description": "RSS aggregator",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --mode development",

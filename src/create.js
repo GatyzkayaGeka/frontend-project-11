@@ -18,13 +18,19 @@ const createPost = (elements, state, i18nInstance) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
 
-    const a = document.createElement('a');
-    a.classList.add('fw-bold');
+    const a = document.createElement('a'); 
+    // a.classList.add('fw-bold');
     a.setAttribute('href', element.link);
     a.setAttribute('target', '_blank');
     a.setAttribute('data-id', element.id);
     a.setAttribute('rel', 'noopener noreferrer');
     a.textContent = element.title;
+    // Проверяем, является ли пост просмотренным
+    if (state.modal.postsModal.has(element.id)) {
+      a.classList.add('fw-normal');
+    } else {
+      a.classList.add('fw-bold');
+    }
 
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
@@ -33,10 +39,10 @@ const createPost = (elements, state, i18nInstance) => {
     button.setAttribute('data-id', element.id);
     button.textContent = i18nInstance.t('button');
 
-    button.addEventListener('click', (e) => {
-      const postId = e.target.getAttribute('data-id');
-      stateChanges.modal.postsModal = postId;
-    });
+    // button.addEventListener('click', (e) => {
+    //   const postId = e.target.getAttribute('data-id');
+    //   stateChanges.modal.postsModal = postId;
+    // }); проверить без неого , кажется переборщила с этим
 
     ulPost.append(li);
     li.append(a, button);
