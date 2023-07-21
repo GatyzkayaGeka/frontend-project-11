@@ -71,15 +71,18 @@ const app = () => {
 
       const checkRSSFeeds = () => {
         const timeUpdate = 5000;
-        const updatePromises = state.feeds.map((feed) => axios.get(preparationUrl(feed.url))
+        const updatePromises = state.feeds.map((feed) => 
+        axios
+          .get(preparationUrl(feed.url))
           .then((response) => {
             const { data } = response;
             const rssState = parseRSS(data);
+
             const newPosts = rssState.posts.filter(
               (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
             );
-            return newPosts;
 
+            return newPosts;
           })
           .catch((error) => {
           // Обработка ошибки невалидного RSS
@@ -91,7 +94,6 @@ const app = () => {
             return []; // Возвращаем пустой массив, чтобы промис не был отклонен
           })
         );
-
         Promise.all(updatePromises)
           .then((newPostsArray) => {
             const newPosts = newPostsArray.flat();
