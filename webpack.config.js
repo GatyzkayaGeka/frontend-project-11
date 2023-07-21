@@ -1,5 +1,5 @@
-const path = import('path');
-const HtmlWebpackPlugin = import('html-webpack-plugin');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
   entry: './src/index.js',
