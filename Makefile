@@ -12,3 +12,6 @@ webpack:
 
 build:
 	npx webpack --mode=development
+
+test:
+	npm test

@@ -61,7 +61,7 @@ const app = () => {
         posts: [],
         feeds: [],
         modal: {
-          postsModal: '',
+          postsModal: new Set(),
           feedsModal: [],
         },
       };
