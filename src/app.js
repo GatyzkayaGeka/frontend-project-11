@@ -33,9 +33,7 @@ const app = () => {
     .init({
       lng: 'ru',
       debug: true,
-      resources: { 
-        ru
-      },
+      resources: { ru },
     })
     .then(() => {
       // ссылки для отрисовки элементов
@@ -80,13 +78,18 @@ const app = () => {
               const rssState = parseRSS(data);
 
               const newPosts = rssState.posts.filter(
-                (post) => !state.posts.some((existingPost) => existingPost.link === post.link)
+                (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
               );
 
               return newPosts;
             })
             .catch((error) => {
+            // Обработка ошибки невалидного RSS
+            if (error.message === 'invalidRss') {
+              console.error('Ресурс не содержит валидный RSS');
+            } else {
               console.error('Ошибка при получении RSS-потока', error);
+            }
               return []; // Возвращаем пустой массив, чтобы промис не был отклонен
             });
         });
@@ -118,7 +121,7 @@ const app = () => {
 
         validateUrl(formDataUrl, urls)
           .then((link) => axios.get(preparationUrl(link)))
-      
+
           .then((response) => {
           // Успешно загружено, обновить состояние и отрисовать элементы
             const rssState = parseRSS(response.data.contents);
@@ -144,7 +147,8 @@ const app = () => {
       elements.posts.addEventListener('click', (e) => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
-          stateChanges.modal.postsModal = postId; // Добавляем id поста в состояние для отметки как просмотренного
+          // Добавляем id поста в состояние для отметки как просмотренного
+          stateChanges.modal.postsModal = postId;
           console.log('postId:', postId); // Отладочный вывод для проверки postId
           updatePostElement(postId, state.modal.postsModal);
           // const postElement = document.querySelector(`a[data-id="${postId}"]`);
@@ -158,7 +162,7 @@ const app = () => {
       // elements.button.addEventListener('click', (e) => {
       //   const postId = e.target.getAttribute('data-id');
       //   stateChanges.modal.postsModal = postId;
-      // }); а гадо ли, проверить без и потом решать. 
+      // }); а гадо ли, проверить без и потом решать.
 
       checkRSSFeeds();
     });
