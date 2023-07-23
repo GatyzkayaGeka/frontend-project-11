@@ -13,17 +13,6 @@ const modalCreat = (state, elements) => {
     elements.bodyModal.textContent = '';
     elements.buttonModal.removeAttribute('href');
   }
-
-  // Добавляем кнопку закрытия (крестик)
-  const closeButton = document.createElement('button');
-  closeButton.setAttribute('type', 'button');
-  closeButton.setAttribute('data-bs-dismiss', 'modal');
-  closeButton.setAttribute('aria-label', 'Close');
-  closeButton.innerHTML = '<span aria-hidden="true">&times;</span>';
-
-  const modalHeader = document.querySelector('.modal-header');
-  modalHeader.appendChild(closeButton);
-
 };
 
 export default modalCreat;

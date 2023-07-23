@@ -69,33 +69,30 @@ const app = () => {
 
       // Обработка изменений в состоянии модального окна
 
-      const fetchDataForFeed = (feed) =>
-        axios
-          .get(preparationUrl(feed.url))
-          .then((response) => response.data)
-          .catch((error) => {
-            // Обработка ошибки невалидного RSS
-            if (error.message === 'invalidRss') {
-              console.error('Ресурс не содержит валидный RSS');
-            } else {
-              console.error('Ошибка при получении RSS-потока', error);
-            }
-            throw error; // Пробрасываем ошибку дальше, чтобы обработать ее в Promise.all
-      });
+      const fetchDataForFeed = (feed) => axios
+        .get(preparationUrl(feed.url))
+        .then((response) => response.data)
+        .catch((error) => {
+          // Обработка ошибки невалидного RSS
+          if (error.message === 'invalidRss') {
+            console.error('Ресурс не содержит валидный RSS');
+          } else {
+            console.error('Ошибка при получении RSS-потока', error);
+          }
+          throw error; // Пробрасываем ошибку дальше, чтобы обработать ее в Promise.all
+        });
 
       const checkRSSFeeds = () => {
         const timeUpdate = 5000;
-        const updatePromises = state.feeds.map((feed) =>
-          fetchDataForFeed(feed).then((data) => {
-            const rssState = parseRSS(data);
+        const updatePromises = state.feeds.map((feed) => fetchDataForFeed(feed).then((data) => {
+          const rssState = parseRSS(data);
 
-            const newPosts = rssState.posts.filter(
-              (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
-            );
+          const newPosts = rssState.posts.filter(
+            (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
+          );
 
-            return newPosts;
-          })
-        );
+          return newPosts;
+        }));
 
         Promise.all(updatePromises)
           .then((newPostsArray) => {

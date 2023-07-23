@@ -65,7 +65,6 @@ const updatePostElement = (postId, visitedPosts) => {
   }
 };
 
-
 const render = (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
     case 'form':
