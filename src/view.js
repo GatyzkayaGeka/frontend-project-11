@@ -39,15 +39,15 @@ const handleProcessStates = (elements, value, i18nInstance, state) => {
   }
 };
 
-const readPost = (state) => {
-  const { posts } = state;
+// const readPost = (state) => {
+//   const { posts } = state;
 
-  posts.forEach((post) => {
-    const link = document.querySelector(`a[data-id="${post.id}"]`);
-    link.classList.remove('fw-bold');
-    link.classList.add('fw-normal', 'link-secondary');
-  });
-};
+//   posts.forEach((post) => {
+//     const link = document.querySelector(`a[data-id="${post.id}"]`);
+//     link.classList.remove('fw-bold');
+//     link.classList.add('fw-normal', 'link-secondary');
+//   });
+// };
 
 const updatePostElement = (postId, visitedPosts) => {
   const postElement = document.querySelector(`a[data-id="${postId}"]`);
@@ -80,7 +80,7 @@ const render = (elements, state, i18nInstance) => (path, value) => {
       createModal(state, elements);
       break;
     case 'modal.feedsModal':
-      readPost(state);
+      updatePostElement(state);
       break;
     default:
       break;

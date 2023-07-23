@@ -3,7 +3,6 @@ import _ from 'lodash';
 import i18next from 'i18next';
 import onChange from 'on-change';
 import axios from 'axios';
-// import render from './view.js';
 import ru from './loc/ru.js';
 import parseRSS from './parser.js';
 import { render, updatePostElement } from './view.js';
@@ -59,7 +58,7 @@ const app = () => {
         posts: [],
         feeds: [],
         modal: {
-          postsModal: new Set(),
+          postsModal: null,
           feedsModal: [],
         },
       };
@@ -93,12 +92,11 @@ const app = () => {
 
           return newPosts;
         })
-        .catch((error) => {
-          console.error('Ошибка при получении или парсинге RSS-потока:', error);
-          // Возвращаем пустой массив, чтобы промис завершился успешно, но без новых постов
-          return [];
-        })
-        );
+          .catch((error) => {
+            console.error('Ошибка при получении или парсинге RSS-потока:', error);
+            // Возвращаем пустой массив, чтобы промис завершился успешно, но без новых постов
+            return [];
+          }));
 
         Promise.all(updatePromises)
           .then((newPostsArray) => {
@@ -156,12 +154,12 @@ const app = () => {
         if (postId) {
           // Проверяем, был ли пост уже просмотрен
           const { modal } = state;
-          if (!modal.postsModal.has(postId)) {
-            modal.postsModal.add(postId);
+          if (modal.postsModal !== postId) {
+            modal.postsModal = postId;
             // Обновляем стили элементов постов
-            updatePostElement(postId, state.modal.postsModal);
+            updatePostElement(postId, modal.postsModal);
             // Обновляем состояние для вызова ререндера модального окна
-            stateChanges.modal.postsModal = new Set(modal.postsModal);
+            stateChanges.modal.postsModal = postId;
           }
         }
       });
