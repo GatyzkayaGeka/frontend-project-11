@@ -69,8 +69,8 @@ const app = () => {
 
       // Обработка изменений в состоянии модального окна
 
-      const fetchDataForFeed = (feed) => {
-        return axios
+      const fetchDataForFeed = (feed) =>
+        axios
           .get(preparationUrl(feed.url))
           .then((response) => response.data)
           .catch((error) => {
@@ -81,13 +81,12 @@ const app = () => {
               console.error('Ошибка при получении RSS-потока', error);
             }
             throw error; // Пробрасываем ошибку дальше, чтобы обработать ее в Promise.all
-          });
-      };
+      });
 
       const checkRSSFeeds = () => {
         const timeUpdate = 5000;
-        const updatePromises = state.feeds.map((feed) => {
-          return fetchDataForFeed(feed).then((data) => {
+        const updatePromises = state.feeds.map((feed) =>
+          fetchDataForFeed(feed).then((data) => {
             const rssState = parseRSS(data);
 
             const newPosts = rssState.posts.filter(
@@ -95,8 +94,8 @@ const app = () => {
             );
 
             return newPosts;
-          });
-        });
+          })
+        );
 
         Promise.all(updatePromises)
           .then((newPostsArray) => {

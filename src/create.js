@@ -1,6 +1,3 @@
-
-import _ from 'lodash';
-
 const createPost = (elements, state, i18nInstance) => {
   const divPost = document.createElement('div');
   divPost.classList.add('card', 'border-0');
