@@ -50,19 +50,19 @@ const handleProcessStates = (elements, value, i18nInstance, state) => {
 // };
 
 const updatePostElement = (postId, modalPostsModal) => {
-  const postElements = document.querySelector(`a[data-id="${postId}"]`);
+  const postElement = document.querySelector(`a[data-id="${postId}"]`);
 
-  postElements.forEach((postElement) => {
+  if (postElement) {
     postElement.classList.remove('fw-bold');
     postElement.classList.remove('fw-normal');
 
     // Проверяем, является ли пост просмотренным
-    if (postElement.getAttribute('data-id') === modalPostsModal) {
+    if (postId === modalPostsModal) {
       postElement.classList.add('fw-normal');
     } else {
       postElement.classList.add('fw-bold', 'link-secondary');
     }
-  });
+  }
 };
 
 const render = (elements, state, i18nInstance) => (path, value) => {
