@@ -1,5 +1,5 @@
 import { createFeeds, createPost } from './create.js';
-import modalCreat from './modal.js';
+import createModal from './modal.js';
 
 const deletionInformation = (elements) => {
   const { input, feedback } = elements;
@@ -8,7 +8,7 @@ const deletionInformation = (elements) => {
   feedback.classList.remove('text-success');
 };
 
-const formUrl = (elements, value, i18nInstance, state) => {
+const handleProcessStates = (elements, value, i18nInstance, state) => {
   const { feedback: isFeedback } = elements;
   const { state: step } = value;
   deletionInformation(elements);
@@ -68,7 +68,7 @@ const updatePostElement = (postId, visitedPosts) => {
 const render = (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
     case 'form':
-      formUrl(elements, value, i18nInstance, state);
+      handleProcessStates(elements, value, i18nInstance, state);
       break;
     case 'feeds':
       createFeeds(elements, state, i18nInstance);
@@ -77,7 +77,7 @@ const render = (elements, state, i18nInstance) => (path, value) => {
       createPost(elements, state, i18nInstance);
       break;
     case 'modal.postsModal':
-      modalCreat(state, elements);
+      createModal(state, elements);
       break;
     case 'modal.feedsModal':
       readPost(state);

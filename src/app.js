@@ -20,7 +20,7 @@ const validateUrl = (url, urls) => {
   return schema.validate(url);
 };
 
-const preparationUrl = (url) => {
+const prepareUrl = (url) => {
   const originReferences = new URL('https://allorigins.hexlet.app/get');
   originReferences.searchParams.set('url', url);
   originReferences.searchParams.set('disableCache', true);
@@ -70,7 +70,7 @@ const app = () => {
       // Обработка изменений в состоянии модального окна
 
       const fetchDataForFeed = (feed) => axios
-        .get(preparationUrl(feed.url))
+        .get(prepareUrl(feed.url))
         .then((response) => response.data)
         .catch((error) => {
           // Обработка ошибки невалидного RSS
@@ -92,7 +92,13 @@ const app = () => {
           );
 
           return newPosts;
-        }));
+        })
+        .catch((error) => {
+          console.error('Ошибка при получении или парсинге RSS-потока:', error);
+          // Возвращаем пустой массив, чтобы промис завершился успешно, но без новых постов
+          return [];
+        })
+        );
 
         Promise.all(updatePromises)
           .then((newPostsArray) => {
@@ -120,7 +126,7 @@ const app = () => {
         stateChanges.form = { state: 'sending', error: '' };
 
         validateUrl(formDataUrl, urls)
-          .then((link) => axios.get(preparationUrl(link)))
+          .then((link) => axios.get(prepareUrl(link)))
 
           .then((response) => {
           // Успешно загружено, обновить состояние и отрисовать элементы
