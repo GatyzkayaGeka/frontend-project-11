@@ -27,7 +27,7 @@ const createPost = (elements, state, i18nInstance) => {
     a.setAttribute('rel', 'noopener noreferrer');
     a.textContent = element.title;
     // Проверяем, является ли пост просмотренным
-    if (state.modal.postsModal.has(element.id)) {
+    if (state.modal.postsModal === element.id) {
       a.classList.add('fw-normal');
     } else {
       a.classList.add('fw-bold');

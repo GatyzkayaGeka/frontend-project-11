@@ -60,7 +60,7 @@ const updatePostElement = (postId, visitedPosts) => {
     if (visitedPosts.has(postId)) {
       postElement.classList.add('fw-normal');
     } else {
-      postElement.classList.add('fw-bold');
+      postElement.classList.add('fw-bold', 'link-secondary');
     }
   }
 };

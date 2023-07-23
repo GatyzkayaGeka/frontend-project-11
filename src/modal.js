@@ -3,7 +3,7 @@ const createModal = (state, elements) => {
   console.log('elements:', elements); // Отладочный вывод для проверки объекта elements
   const { postsModal } = state.modal;
   // Получаем первый идентификатор поста из коллекции
-  const currentPostId = Array.from(postsModal)[0];
+  const currentPostId = postsModal;
 
   if (currentPostId) {
     const currentPosts = state.posts.find((post) => post.id === currentPostId);
