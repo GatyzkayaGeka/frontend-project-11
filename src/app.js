@@ -6,7 +6,7 @@ import axios from 'axios';
 // import render from './view.js';
 import ru from './loc/ru.js';
 import parseRSS from './parser.js';
-import { render, updatePostElement, openModal } from './view.js';
+import { render, updatePostElement } from './view.js';
 
 // проверить на валидность url и на повтор
 const validateUrl = (url, urls) => {
@@ -152,23 +152,12 @@ const app = () => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
           // Отмечаем пост как просмотренный при открытии модального окна
-          state.modal.postsModal.add(postId);
+          stateChanges.modal.postsModal = postId;
           console.log('postId:', postId); // Отладочный вывод для проверки postId
           // Обновляем стили элементов постов
-          updatePostElement(postId, state.modal.postsModal);
-          openModal(postId);
-          // const postElement = document.querySelector(`a[data-id="${postId}"]`);
-          // if (postElement) {
-          //   postElement.classList.remove('fw-bold');
-          //   postElement.classList.add('fw-normal');
-          // }
+          updatePostElement(postId, visitedPosts);
         }
       });
-
-      // elements.button.addEventListener('click', (e) => {
-      //   const postId = e.target.getAttribute('data-id');
-      //   stateChanges.modal.postsModal = postId;
-      // }); а гадо ли, проверить без и потом решать.
 
       checkRSSFeeds();
     });

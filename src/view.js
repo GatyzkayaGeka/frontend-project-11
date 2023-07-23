@@ -65,24 +65,6 @@ const updatePostElement = (postId, visitedPosts) => {
   }
 };
 
-const openModal = (postId) => {
-  // Находим пост по его id
-  const post = state.posts.find((p) => p.id === postId);
-  if (!post) return;
-
-  // Заполняем модальное окно контентом выбранного поста
-  elements.titleModal.textContent = post.title;
-  elements.bodyModal.textContent = post.description;
-  elements.buttonModal.setAttribute('href', post.link);
-
-  // Открываем модальное окно
-  const modal = new bootstrap.Modal(document.getElementById('modal'));
-  modal.show();
-
-  // Пометим пост как просмотренный
-  state.modal.postsModal.add(postId);
-  updatePostElement(postId, state.modal.postsModal);
-};
 
 const render = (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
@@ -107,4 +89,4 @@ const render = (elements, state, i18nInstance) => (path, value) => {
 };
 
 // export default render;
-export { render, updatePostElement, openModal };
+export { render, updatePostElement };
