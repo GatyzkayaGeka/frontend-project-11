@@ -69,31 +69,34 @@ const app = () => {
 
       // Обработка изменений в состоянии модального окна
 
+      const fetchDataForFeed = (feed) => {
+        return axios
+          .get(preparationUrl(feed.url))
+          .then((response) => response.data)
+          .catch((error) => {
+            // Обработка ошибки невалидного RSS
+            if (error.message === 'invalidRss') {
+              console.error('Ресурс не содержит валидный RSS');
+            } else {
+              console.error('Ошибка при получении RSS-потока', error);
+            }
+            throw error; // Пробрасываем ошибку дальше, чтобы обработать ее в Promise.all
+          });
+      };
+
       const checkRSSFeeds = () => {
         const timeUpdate = 5000;
-        const updatePromises = state.feeds.map((feed) =>
-          axios
-            .get(preparationUrl(feed.url))
-            .then((response) => {
-              const { data } = response;
-              const rssState = parseRSS(data);
+        const updatePromises = state.feeds.map((feed) => {
+          return fetchDataForFeed(feed).then((data) => {
+            const rssState = parseRSS(data);
 
-              const newPosts = rssState.posts.filter(
-                (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
-              );
+            const newPosts = rssState.posts.filter(
+              (post) => !state.posts.some((existingPost) => existingPost.link === post.link)
+            );
 
-              return newPosts;
-            })
-            .catch((error) => {
-            // Обработка ошибки невалидного RSS
-              if (error.message === 'invalidRss') {
-                console.error('Ресурс не содержит валидный RSS');
-              } else {
-                console.error('Ошибка при получении RSS-потока', error);
-              }
-              return []; // Возвращаем пустой массив, чтобы промис не был отклонен
-            }),
-        );
+            return newPosts;
+          });
+        });
 
         Promise.all(updatePromises)
           .then((newPostsArray) => {
@@ -149,10 +152,12 @@ const app = () => {
       elements.posts.addEventListener('click', (e) => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
-          // Добавляем id поста в состояние для отметки как просмотренного
-          stateChanges.modal.postsModal = postId;
+          openModal(postId);
+          // Отмечаем пост как просмотренный при открытии модального окна
+          stateChanges.modal.postsModal.add(postId);
           console.log('postId:', postId); // Отладочный вывод для проверки postId
-          updatePostElement(postId, state.modal.postsModal);
+          // Обновляем стили элементов постов
+          updatePostElement(postId, stateChanges.modal.postsModal);
           // const postElement = document.querySelector(`a[data-id="${postId}"]`);
           // if (postElement) {
           //   postElement.classList.remove('fw-bold');

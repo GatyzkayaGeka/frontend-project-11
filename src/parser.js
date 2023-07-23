@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const parseRSS = (response) => {
   const domParser = new DOMParser();
   const parseData = domParser.parseFromString(response, 'text/xml');
@@ -20,7 +22,9 @@ const parseRSS = (response) => {
       const description = el.querySelector('description').textContent;
       const link = el.querySelector('link').textContent;
       const id = _.uniqueId();
-      return { id, link, title, description };
+      return { 
+        id, link, title, description
+      };
     });
     return { feed, posts };
   } catch (err) {
