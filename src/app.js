@@ -149,7 +149,7 @@ const app = () => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
           // Отмечаем пост как просмотренный при открытии модального окна
-          stateChanges.modal.postsModal = postId;
+          stateChanges.modal.postsModal = new Set([postId]);
           console.log('postId:', postId); // Отладочный вывод для проверки postId
           // Обновляем стили элементов постов
           updatePostElement(postId, state.modal.postsModal);

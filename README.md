@@ -19,4 +19,4 @@ RSS — специализированный формат, предназнач�
 2. На своём компьютере перейдите в проект, и запустите команду: make install
 
 #### Пример
-[https://frontend-project-11-kz3m-fkjskye8z-gatyzkayageka.vercel.app/](https://frontend-project-11-kz3m-fkjskye8z-gatyzkayageka.vercel.app/)
+[https://frontend-project-11-kz3m.vercel.app/](https://frontend-project-11-kz3m.vercel.app/)
