@@ -2,12 +2,15 @@ const modalCreat = (state, elements) => {
   console.log('state:', state); // Отладочный вывод для проверки состояния state
   console.log('elements:', elements); // Отладочный вывод для проверки объекта elements
   const { postsModal } = state.modal;
-  const currentPost = state.posts.find((post) => post.id === postsModal);
+  const currentPostIds = Array.from(postsModal);
 
-  if (currentPost) {
-    elements.titleModal.textContent = currentPost.title;
-    elements.bodyModal.textContent = currentPost.description;
-    elements.buttonModal.setAttribute('href', currentPost.link);
+  if (currentPostIds.length > 0) {
+    const currentPosts = state.posts.filter((post) => currentPostIds.includes(post.id));
+    const latestPost = currentPosts[currentPosts.length - 1];
+
+    elements.titleModal.textContent = latestPost.title;
+    elements.bodyModal.textContent = latestPost.description;
+    elements.buttonModal.setAttribute('href', latestPost.link);
   } else {
     elements.titleModal.textContent = '';
     elements.bodyModal.textContent = '';

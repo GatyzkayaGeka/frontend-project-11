@@ -148,15 +148,15 @@ const app = () => {
       elements.posts.addEventListener('click', (e) => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
-          // Отмечаем пост как просмотренный при открытии модального окна
-          if (state.modal.postsModal.has(postId)) {
-            state.modal.postsModal.delete(postId); // Если postId уже в Set, удаляем его
-          } else {
-            state.modal.postsModal.add(postId); // Если postId не в Set, добавляем его
+          // Проверяем, был ли пост уже просмотрен
+          const { modal } = state;
+          if (!modal.postsModal.has(postId)) {
+            modal.postsModal.add(postId);
+            // Обновляем стили элементов постов
+            updatePostElement(postId, state.modal.postsModal);
+            // Обновляем состояние для вызова ререндера модального окна
+            stateChanges.modal.postsModal = new Set(modal.postsModal);
           }
-          console.log('postId:', postId); // Отладочный вывод для проверки postId
-          // Обновляем стили элементов постов
-          updatePostElement(postId, state.modal.postsModal);
         }
       });
 
