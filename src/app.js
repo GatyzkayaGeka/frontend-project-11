@@ -6,7 +6,7 @@ import axios from 'axios';
 // import render from './view.js';
 import ru from './loc/ru.js';
 import parseRSS from './parser.js';
-import { render, updatePostElement } from './view.js';
+import { render, updatePostElement, openModal } from './view.js';
 
 // проверить на валидность url и на повтор
 const validateUrl = (url, urls) => {
@@ -91,7 +91,7 @@ const app = () => {
             const rssState = parseRSS(data);
 
             const newPosts = rssState.posts.filter(
-              (post) => !state.posts.some((existingPost) => existingPost.link === post.link)
+              (post) => !state.posts.some((existingPost) => existingPost.link === post.link),
             );
 
             return newPosts;
@@ -152,12 +152,12 @@ const app = () => {
       elements.posts.addEventListener('click', (e) => {
         const postId = e.target.getAttribute('data-id');
         if (postId) {
-          openModal(postId);
           // Отмечаем пост как просмотренный при открытии модального окна
-          stateChanges.modal.postsModal.add(postId);
+          state.modal.postsModal.add(postId);
           console.log('postId:', postId); // Отладочный вывод для проверки postId
           // Обновляем стили элементов постов
-          updatePostElement(postId, stateChanges.modal.postsModal);
+          updatePostElement(postId, state.modal.postsModal);
+          openModal(postId);
           // const postElement = document.querySelector(`a[data-id="${postId}"]`);
           // if (postElement) {
           //   postElement.classList.remove('fw-bold');

@@ -22,8 +22,8 @@ const parseRSS = (response) => {
       const description = el.querySelector('description').textContent;
       const link = el.querySelector('link').textContent;
       const id = _.uniqueId();
-      return { 
-        id, link, title, description
+      return {
+        id, link, title, description,
       };
     });
     return { feed, posts };

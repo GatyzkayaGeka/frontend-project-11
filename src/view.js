@@ -65,6 +65,13 @@ const updatePostElement = (postId, visitedPosts) => {
   }
 };
 
+const openModal = (postId) => {
+  const modal = new bootstrap.Modal(document.getElementById('modal'));
+  modal.show();
+  state.modal.postsModal.add(postId);
+  updatePostElement(postId, state.modal.postsModal);
+};
+
 const render = (elements, state, i18nInstance) => (path, value) => {
   switch (path) {
     case 'form':
@@ -88,4 +95,4 @@ const render = (elements, state, i18nInstance) => (path, value) => {
 };
 
 // export default render;
-export { render, updatePostElement };
+export { render, updatePostElement, openModal };
