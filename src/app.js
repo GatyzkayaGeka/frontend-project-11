@@ -155,7 +155,7 @@ const app = () => {
           stateChanges.modal.postsModal = postId;
           console.log('postId:', postId); // Отладочный вывод для проверки postId
           // Обновляем стили элементов постов
-          updatePostElement(postId, visitedPosts);
+          updatePostElement(postId, state.modal.postsModal);
         }
       });
 

@@ -7,6 +7,7 @@ const createPost = (elements, state, i18nInstance) => {
 
   const h2PostCap = document.createElement('h2');
   h2PostCap.classList.add('card-title', 'h4');
+  h2PostCap.textContent = i18nInstance.t('posts'); // Добавляем перевод для "Посты"
 
   const ulPost = document.createElement('ul');
   ulPost.classList.add('list-group', 'border-0', 'rounded-0');
@@ -52,7 +53,7 @@ const createPost = (elements, state, i18nInstance) => {
   posts.replaceChildren(divPost);
 };
 
-const createFeeds = (elements, state) => {
+const createFeeds = (elements, state, i18nInstance) => {
   const divFeeds = document.createElement('div');
   divFeeds.classList.add('card', 'border-0');
 
@@ -61,6 +62,7 @@ const createFeeds = (elements, state) => {
 
   const h2FeedsCap = document.createElement('h2');
   h2FeedsCap.classList.add('card-title', 'h4');
+  h2FeedsCap.textContent = i18nInstance.t('feeds'); // Добавляем перевод для "Фиды"
 
   const ulFeeds = document.createElement('ul');
   ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
