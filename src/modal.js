@@ -3,7 +3,7 @@ const createModal = (state, elements) => {
   // Получаем первый идентификатор поста из коллекции
   const currentPostId = postsModal;
 
-  if (currentPostId !== null) { // Изменяем проверку на "!== null"
+  if (currentPostId) {
     const currentPosts = state.posts.find((post) => post.id === currentPostId);
 
     elements.titleModal.textContent = currentPosts.title;

@@ -154,8 +154,8 @@ const app = () => {
         if (postId) {
           // Проверяем, был ли пост уже просмотрен
           const { modal } = state;
-          if (modal.postsModal !== postId) {
-            modal.postsModal = postId;
+          if (!modal.postsModal.has(postId)) {
+            modal.postsModal.add(postId);
             // Обновляем стили элементов постов
             updatePostElement(postId, modal.postsModal);
             // Обновляем состояние для вызова ререндера модального окна
