@@ -60,7 +60,7 @@ const updatePostElement = (postId, modalPostsModal) => {
     if (postId === modalPostsModal) {
       postElement.classList.add('fw-normal');
     } else {
-      postElement.classList.add('fw-bold', 'link-secondary');
+      postElement.classList.add('fw-bold');
     }
   }
 };

@@ -30,7 +30,7 @@ const createPost = (elements, state, i18nInstance) => {
     if (state.modal.postsModal === element.id) {
       a.classList.add('fw-normal');
     } else {
-      a.classList.add('fw-bold', 'link-secondary');
+      a.classList.add('fw-bold');
     }
 
     const button = document.createElement('button');
