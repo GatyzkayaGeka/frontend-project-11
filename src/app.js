@@ -58,7 +58,7 @@ const app = () => {
         posts: [],
         feeds: [],
         modal: {
-          postsModal: null,
+          postsModal: new Set(),
           feedsModal: [],
         },
       };
@@ -157,9 +157,9 @@ const app = () => {
           if (!modal.postsModal.has(postId)) {
             modal.postsModal.add(postId);
             // Обновляем стили элементов постов
-            updatePostElement(postId, modal.postsModal);
+            updatePostElement(state.modal.postsModal);
             // Обновляем состояние для вызова ререндера модального окна
-            stateChanges.modal.postsModal = postId;
+            stateChanges.modal.postsModal = new Set(modal.postsModal);
           }
         }
       });
