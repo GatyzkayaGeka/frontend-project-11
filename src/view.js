@@ -49,7 +49,7 @@ const readPost = (state) => {
   });
 };
 
-const updatePostElement = (postId, visitedPosts) => {
+const updatePostElement = (postId, modalPostsModal) => {
   const postElement = document.querySelector(`a[data-id="${postId}"]`);
 
   if (postElement) {
@@ -57,7 +57,7 @@ const updatePostElement = (postId, visitedPosts) => {
     postElement.classList.remove('fw-normal');
 
     // Проверяем, является ли пост просмотренным
-    if (visitedPosts.has(postId)) {
+    if (modalPostsModal.has(postId)) {
       postElement.classList.add('fw-normal');
     } else {
       postElement.classList.add('fw-bold');
