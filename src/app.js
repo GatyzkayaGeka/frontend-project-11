@@ -5,7 +5,7 @@ import onChange from 'on-change';
 import axios from 'axios';
 import ru from './loc/ru.js';
 import parseRSS from './parser.js';
-import { render, updatePostElement } from './view.js';
+import render from './view.js';
 
 // проверить на валидность url и на повтор
 const validateUrl = (url, urls) => {
@@ -23,7 +23,7 @@ const prepareUrl = (url) => {
   const originReferences = new URL('https://allorigins.hexlet.app/get');
   originReferences.searchParams.set('url', url);
   originReferences.searchParams.set('disableCache', true);
-  return originReferences;
+  return originReferences.toString();
 };
 
 const app = () => {
@@ -58,8 +58,8 @@ const app = () => {
         posts: [],
         feeds: [],
         modal: {
-          postsModal: new Set(),
-          feedsModal: [],
+          postsModal: null,
+          feedsModal: new Set(),
         },
       };
 
@@ -120,7 +120,6 @@ const app = () => {
         const formData = new FormData(e.target);
         const formDataUrl = formData.get('url');
         const urls = state.feeds.map((feed) => feed.url);
-        // stateChanges.form = { state: 'loading', error: '' };
         stateChanges.form = { state: 'sending', error: '' };
 
         validateUrl(formDataUrl, urls)
@@ -149,22 +148,13 @@ const app = () => {
           });
       });
 
-      elements.posts.addEventListener('click', (e) => {
-        const postId = e.target.getAttribute('data-id');
-        if (postId) {
-          // Проверяем, был ли пост уже просмотрен
-          const { modal } = state;
-          if (!modal.postsModal.has(postId)) {
-            modal.postsModal.add(postId);
-            // Обновляем стили элементов постов
-            updatePostElement(postId, state.modal.postsModal);
-            // Обновляем состояние для вызова ререндера модального окна
-            stateChanges.modal.postsModal = new Set(modal.postsModal);
-          }
-        }
+      elements.posts.addEventListener('click', ({ target }) => {
+        const { id } = target.dataset;
+        stateChanges.modal.postsModal = id;
+        stateChanges.modal.feedsModal.add(id);
       });
 
-      checkRSSFeeds();
+      checkRSSFeeds(stateChanges);
     });
 };
 

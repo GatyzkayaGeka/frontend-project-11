@@ -2,10 +2,12 @@ import { createFeeds, createPost } from './create.js';
 import createModal from './modal.js';
 
 const deletionInformation = (elements) => {
-  const { input, feedback } = elements;
+  const { button, input, feedback } = elements;
   input.classList.remove('is-invalid');
   feedback.classList.remove('text-danger');
   feedback.classList.remove('text-success');
+  button.disabled = false;
+  input.disabled = false;
 };
 
 const handleProcessStates = (elements, value, i18nInstance, state) => {
@@ -18,8 +20,8 @@ const handleProcessStates = (elements, value, i18nInstance, state) => {
       isFeedback.textContent = i18nInstance.t(`status.${step}`);
       elements.form.reset();
       elements.input.focus();
-      elements.button.disabled = false;
-      elements.input.disabled = false;
+      // elements.button.disabled = false;
+      // elements.input.disabled = false;
       break;
     case 'invalid':
       elements.input.classList.add('is-invalid');
@@ -27,8 +29,8 @@ const handleProcessStates = (elements, value, i18nInstance, state) => {
       isFeedback.textContent = i18nInstance.t(`errors.${state.form.error}`);
       elements.form.reset();
       elements.input.focus();
-      elements.button.disabled = false;
-      elements.input.disabled = false;
+      // elements.button.disabled = false;
+      // elements.input.disabled = false;
       break;
     case 'sending':
       elements.button.disabled = true;
@@ -39,30 +41,12 @@ const handleProcessStates = (elements, value, i18nInstance, state) => {
   }
 };
 
-const readPost = (state) => {
-  const { posts } = state;
-
-  posts.forEach((post) => {
-    const link = document.querySelector(`a[data-id="${post.id}"]`);
-    link.classList.remove('fw-bold');
-    link.classList.add('fw-normal', 'link-secondary');
-  });
-};
-
-const updatePostElement = (postId, modalPostsModal) => {
-  const postElement = document.querySelector(`a[data-id="${postId}"]`);
-
-  if (postElement) {
+const updatePostElement = (modalPostsModal) => {
+  modalPostsModal.forEach((postId) => {
+    const postElement = document.querySelector(`a[data-id="${postId}"]`);
     postElement.classList.remove('fw-bold');
-    postElement.classList.remove('fw-normal');
-
-    // Проверяем, является ли пост просмотренным
-    if (modalPostsModal.has(postId)) {
-      postElement.classList.add('fw-normal');
-    } else {
-      postElement.classList.add('fw-bold');
-    }
-  }
+    postElement.classList.remove('fw-normal', 'link-secondary');
+  });
 };
 
 const render = (elements, state, i18nInstance) => (path, value) => {
@@ -76,16 +60,16 @@ const render = (elements, state, i18nInstance) => (path, value) => {
     case 'posts':
       createPost(elements, state, i18nInstance);
       break;
-    case 'modal.postsModal':
-      createModal(state, elements);
-      break;
     case 'modal.feedsModal':
-      readPost(state);
+      updatePostElement(value);
+      break;
+    case 'modal.postsModal':
+      createModal(state, elements, value);
       break;
     default:
       break;
   }
 };
 
-// export default render;
-export { render, updatePostElement };
+export default render;
+// export { render, updatePostElement };
